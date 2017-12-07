@@ -1,0 +1,102 @@
+[33mcommit 2d9a7207b2b51d87f5e4c7db3300f6ea029a510c[m
+Author: Amir Bagaon <ampiano24@gmail.com>
+Date:   Mon Nov 27 23:58:22 2017 +0200
+
+    more tests and comments to tests2
+
+[33mcommit 805b58e605f0ba84cddd7c1d79382a9ad30e7f41[m
+Author: Amir Bagaon <ampiano24@gmail.com>
+Date:   Mon Nov 27 23:58:18 2017 +0200
+
+    more tests and comments to tests2
+
+[33mcommit 511982a10da4fa934dadb566a2996ed425e6e35e[m
+Author: Amir Bagaon <ampiano24@gmail.com>
+Date:   Mon Nov 27 23:44:37 2017 +0200
+
+    more tests and comments to tests
+
+[33mcommit c00542edadac9d9b1b315865551596dbd989337e[m
+Author: Amir Bagaon <ampiano24@gmail.com>
+Date:   Mon Nov 27 23:44:32 2017 +0200
+
+    more tests and comments to tests
+
+[33mcommit 904b8661ed7cb3968966e9398de983c40565981d[m
+Author: Amir Bagaon <ampiano24@gmail.com>
+Date:   Mon Nov 27 23:44:26 2017 +0200
+
+    more tests and comments to tests
+
+[33mcommit 389611b15770edf0e8253bbfc19e02edb4e94d4f[m
+Author: Amir Bagaon <ampiano24@gmail.com>
+Date:   Mon Nov 27 23:44:16 2017 +0200
+
+    more tests and comments to tests
+
+[33mcommit 5e41e6a93c71c568fa3eadfc9dee882baf2a7fbb[m
+Author: Amir Bagaon <ampiano24@gmail.com>
+Date:   Mon Nov 27 22:37:52 2017 +0200
+
+    h to tests and more tests
+
+[33mcommit c21548f0d82ebf7e66f461ffcb34b5c4f6387a2b[m
+Author: Or Paz <orpaz007@gmail.com>
+Date:   Mon Nov 27 20:49:38 2017 +0200
+
+    change AIPlayer
+
+[33mcommit af360c47901fdd4315e31fad4af813a9cf63297c[m
+Author: Or Paz <orpaz007@gmail.com>
+Date:   Mon Nov 27 13:15:22 2017 +0200
+
+    change cmake + start testing
+    partition to folders.
+
+[33mcommit 39c8ad9e97e9a067d4cb246c8bf1682666e7ab64[m
+Author: Or Paz <orpaz007@gmail.com>
+Date:   Sun Nov 26 15:55:03 2017 +0200
+
+    HumanPlayer minur change
+
+[33mcommit c907da802e20f2a182d37f4c266c44e75951baeb[m
+Author: Amir Bagaon <ampiano24@gmail.com>
+Date:   Sun Nov 26 10:47:36 2017 +0200
+
+    Start_Tests
+
+[33mcommit e106e237d9926c6cec493116c4e55fd44bbb3376[m
+Author: Amir Bagaon <ampiano24@gmail.com>
+Date:   Sun Nov 26 03:50:52 2017 +0200
+
+    Before tests
+
+[33mcommit 744b7f11c218fe8492e68adc9a553e6c8f402310[m
+Author: Amir Bagaon <ampiano24@gmail.com>
+Date:   Thu Nov 23 16:23:05 2017 +0200
+
+    16:22 22/11
+
+[33mcommit 0f46f0db2e0c6bfca0f596e62a206330adcc2147[m
+Author: Amir Bagaon <ampiano24@gmail.com>
+Date:   Thu Nov 23 15:03:09 2017 +0200
+
+    22.11 15:00
+
+[33mcommit c6157b924d60835280d762e56689b1f91f667970[m
+Author: Amir Bagaon <ampiano24@gmail.com>
+Date:   Tue Nov 21 14:50:42 2017 +0200
+
+    "Or Hagever"
+
+[33mcommit e2fbafdc70466bc8ccbcfbb8f756499e452ef807[m
+Author: Amir Bagaon <ampiano24@gmail.com>
+Date:   Mon Nov 20 23:09:05 2017 +0200
+
+    my second commit
+
+[33mcommit 7108c0bfb5f4a541270fa48f86d733b52ad09011[m
+Author: Amir Bagaon <ampiano24@gmail.com>
+Date:   Mon Nov 20 22:58:08 2017 +0200
+
+    I add all
