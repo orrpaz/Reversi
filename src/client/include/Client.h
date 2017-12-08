@@ -10,11 +10,14 @@
 class Client {
 public:
     Client(const char *serverIP, int serverPort);
-    Client(char* fileName);
+    Client(const char* fileName);
     void connectToServer();
     int getPriorityValue();
+    const char * getserverip(){
+        return serverIP;
+    }
 private:
-    const char *serverIP;
+    char serverIP[16];
     int serverPort;
     int clientSocket;
 };

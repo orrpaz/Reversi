@@ -35,7 +35,7 @@ void GameManager::initialize(const int &size) {
     players = new Player*[2];
     char gameMode ,flag = 1;
     printer->massage("Choose a game mode:\n\n1) Player vs Player\n\n2)"
-                             " Player vs Computer\n\n3) Exit\n\n");
+                             " Player vs Computer\n\n3) Player vs Remote Player\n\n");
 
     while(flag) {
         cin >> gameMode;
@@ -69,15 +69,15 @@ void GameManager::initialize(const int &size) {
                 break;
         }
     }
-
-
 }
 int GameManager::clientCase() {
-    client = new Client("127.0.0.1", 8001);
+   // client = new Client("127.0.0.1", 8001);
+    client = new Client("../exe/setting_client.txt");
     try {
         client->connectToServer();
+
     } catch (const char *msg) {
-        cout << "Failed to connect to server. Reason:" << msg << endl;
+        cout << "Failed to connect to server. Reason:   " << msg << endl;
         delete[] players;
         delete(printer);
         exit(-1);

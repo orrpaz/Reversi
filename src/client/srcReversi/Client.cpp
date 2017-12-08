@@ -15,25 +15,30 @@
 #include <unistd.h>
 
 using namespace std;
-Client::Client(const char *serverIP, int serverPort):
-        serverIP(serverIP), serverPort(serverPort),
-        clientSocket(0) {
-    cout << "Client" << endl;
-}
+//Client::Client(char *serverIP, int serverPort):
+//        serverIP(serverIP), serverPort(serverPort),
+//        clientSocket(0) {
+//    cout << "Client" << endl;
+//}
 
-Client::Client(char* fileName) {
+Client::Client(const char* fileName) {
     ifstream file;
     file.open(fileName, ios::in);
     if (!file.is_open())
         throw "Error opening the settings file!";
     else {
+        string ip,buffer;
+        file >> ip;
+        strcpy(this->serverIP , ip.c_str());
+        file >> this->serverPort;
+        this->clientSocket = 0;
 
-        string buffer, ip;
-        getline(file, buffer);
-        serverIP = buffer.c_str();
-        getline(file, buffer);
-        serverPort = atoi(buffer.c_str());
+//        getline(file, ip);
+//        strcpy(serverIP, ip.c_str());
+//        getline(file, buffer);
+//        serverPort = atoi(buffer.c_str());
     }
+    file.close();
 }
 void Client::connectToServer() {
     clientSocket = socket(AF_INET, SOCK_STREAM, 0);
