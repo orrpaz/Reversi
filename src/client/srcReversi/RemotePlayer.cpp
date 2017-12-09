@@ -15,9 +15,13 @@ RemotePlayer::RemotePlayer(const Value t, const Client *client) : Player(t), cli
 Coordinate RemotePlayer::makeTurn(Logic* logic, Board* originalBoard, Printer* printer,
                                     set<Coordinate> availableMoves) const {
 
+    Coordinate c = originalBoard->getLastMoved();
+    sendCoordinate(c);
+    getCoordinateFromServer(c);
+    return c;
 }
 
-void RemotePlayer::sendCoordinate(Coordinate coordinate) {
+void RemotePlayer::sendCoordinate(Coordinate coordinate) const{
 
 
     ssize_t n = write(client->getClientSocket(),&coordinate ,sizeof (Coordinate));
@@ -27,7 +31,7 @@ void RemotePlayer::sendCoordinate(Coordinate coordinate) {
     }
 }
 
-void RemotePlayer::getCoordinateFromServer(Coordinate coordinate) {
+void RemotePlayer::getCoordinateFromServer(Coordinate coordinate) const{
     ssize_t n = read(client->getClientSocket(),&coordinate ,sizeof (Coordinate));
     if (n == -1) {
 

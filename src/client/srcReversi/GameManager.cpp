@@ -32,6 +32,7 @@ void GameManager::initialize(const int &size) {
 
     const Value p1Token = Black;
     const Value p2Token = White;
+    isClientPlay = false;
     printer = new ConsolePrinter();
     board = new Board(size, p1Token, p2Token);
     logic = new NormalLogic(board);
@@ -54,18 +55,17 @@ void GameManager::initialize(const int &size) {
                 flag = 0;
                 break;
             case '3': {
+
                 isClientPlay = true;
                 int priority = clientCase();
                 if (priority == 1) {
                     players[0] = new HumanPlayer(p1Token);
-                  //  players[1] = new ComputerPlayer(p2Token);
-                    // players[1] = new RemotePlayer(p2Token);
+                    players[1] = new RemotePlayer(p2Token, client);
                 } else {
                     players[1] = new HumanPlayer(p2Token);
-                //    players[0] = new ComputerPlayer(p1Token);
-                    //   players[0] = new RemotePlayer(p1Token);
+                    players[0] = new RemotePlayer(p1Token, client);
                 }
-
+                flag = 0;
                 break;
             }
             default:
