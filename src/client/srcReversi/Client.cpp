@@ -8,11 +8,10 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
-#include <string.h>
 #include <fstream>
 #include <cstdlib>
-#include <cstring>
 #include <unistd.h>
+#include <cstring>
 
 using namespace std;
 //Client::Client(char *serverIP, int serverPort):

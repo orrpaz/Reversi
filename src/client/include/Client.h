@@ -4,8 +4,7 @@
 
 #ifndef REVERSI_CLIENT_H
 #define REVERSI_CLIENT_H
-
-//#include "Cell.h"
+#define SIZEIP 16
 
 class Client {
 public:
@@ -13,11 +12,11 @@ public:
     Client(const char* fileName);
     void connectToServer();
     int getPriorityValue();
-    const char * getserverip(){
+    const char * getServerIp(){
         return serverIP;
     }
 private:
-    char serverIP[16];
+    char serverIP[SIZEIP];
     int serverPort;
     int clientSocket;
 };

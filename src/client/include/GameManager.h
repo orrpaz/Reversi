@@ -19,6 +19,7 @@ private:
     Printer* printer;
     Client* client;
     int tie;
+    bool isClientPlay = false;
 
 public:
     /************************************************************************

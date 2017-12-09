@@ -23,7 +23,10 @@ GameManager::~GameManager() {
     delete(logic);
     delete(board);
     delete(printer);
-    delete(client);
+    if (isClientPlay) {
+        delete(client);
+    }
+
 }
 void GameManager::initialize(const int &size) {
 
@@ -51,6 +54,7 @@ void GameManager::initialize(const int &size) {
                 flag = 0;
                 break;
             case '3': {
+                isClientPlay = true;
                 int priority = clientCase();
                 if (priority == 1) {
                     players[0] = new HumanPlayer(p1Token);
