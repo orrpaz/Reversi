@@ -1,5 +1,6 @@
 //
 // Created by or on 06/12/17.
+//ken
 //
 #include <iostream>
 #include "../include/RemotePlayer.h"
@@ -14,7 +15,7 @@ Coordinate RemotePlayer::makeTurn(Logic* logic, Board* originalBoard, Printer* p
 }
 
 void RemotePlayer::sendCoordinate(int x, int y) {
-
+int a = 8;
 }
 
 void RemotePlayer::getCoordinateFromServer(int x, int y) {
