@@ -6,14 +6,13 @@
 using namespace std;
 
 //Constructor
-Board::Board(const int &s, const Value &p1, const Value &p2): size(s), lastputted((s/2),(s/2)),
-                                                              p1Token(p1), p2Token(p2){
+Board::Board(const int &s, const Value &p1, const Value &p2): size(s), p1Token(p1), p2Token(p2){
     initialize();
     startMode(p1Token, p2Token);
 
 }
 Board::Board(Board*& b1): p1Token(b1->getp1()),p2Token(b1->getp2()),
-                          size(b1->getSize()), lastputted((size/2),(size/2)){
+                          size(b1->getSize()){
     board = new Cell**[size]; // size-times array of cells
     for (int i = 0; i < size; i++) {
         board[i] = new Cell*[size]; //each array is size's-cells
@@ -83,13 +82,11 @@ void Board::startMode(const Value &p1Token,const Value &p2Token) const{
 //Updates the board
 void Board::update(const int &row, const int &col, const Value &player) {
     board[row][col]->setSign(player);
-    lastputted = Coordinate(row,col);
 }
 //Updates the board by coordinate
 void Board::update(Coordinate c, const Value &player) {
     board[c.getRow()][c.getCol()]->setSign(player);
-    lastputted = c;
-}
+ }
 
 
 //Frees the board's allocation
@@ -119,10 +116,6 @@ bool Board::isFull() const{
         }
     }
     return true;
-}
-
-Coordinate Board::getLastMoved() {
-    return lastputted;
 }
 
 int Board::score(Value player) {

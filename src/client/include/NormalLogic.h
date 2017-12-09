@@ -58,6 +58,7 @@ public:
     virtual bool isLegal(Coordinate &c) const;
     virtual void flip(Coordinate c, const Value &player);
     virtual void setCurrentBoard(Board * b);
+    virtual void makeMove(Coordinate &c, Value v, Board * b);
 };
 
 

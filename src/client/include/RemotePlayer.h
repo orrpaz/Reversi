@@ -10,12 +10,17 @@ class Client;
 class RemotePlayer : public Player {
 private:
     const Client *client;
+    int priority;
 
 public:
-    RemotePlayer(const Value t ,const  Client* client);
-    void sendCoordinate(Coordinate coordinate) const;
-    void getCoordinateFromServer(Coordinate coordinate) const;
+    RemotePlayer(const Value t ,const  Client* client, int priority);
+    void sendCoordinate(Coordinate &coordinate) const;
+    void getCoordinateFromServer(Coordinate &coordinate) const;
+    void setPriority(int a);
     virtual Coordinate makeTurn(Logic* l, Board* b, Printer* printer, set<Coordinate> availableMoves) const;
+
+    virtual void startTurn(Printer* printer) const;
+    virtual void cantMove(Printer* printer) const;
 };
 
 

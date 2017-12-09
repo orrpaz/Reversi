@@ -6,7 +6,7 @@
 #include "../include/Logic.h"
 
 using namespace std;
-Logic::Logic(Board*& b) {
+Logic::Logic(Board*& b) : last(b->getSize() / 2, b->getSize() / 2) {
     board = b;
     size = b->getSize();
 }
@@ -22,6 +22,10 @@ void Logic::calculateAll(const Value &player) {
             }
         }
     }
+}
+
+Coordinate Logic::getLastMove() {
+    return last;
 }
 
 void Logic::endTurn() {

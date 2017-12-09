@@ -12,7 +12,6 @@ private:
     const int size; //The board's size
     const Value p1Token;
     const Value p2Token;
-    Coordinate lastputted;
 public:
     /*************************************************************************
     * Name: Board (Constructor)

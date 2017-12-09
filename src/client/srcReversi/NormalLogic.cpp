@@ -304,3 +304,9 @@ void NormalLogic::setCurrentBoard(Board *b) {
     board = b;
     size = b->getSize();
 }
+
+void NormalLogic::makeMove(Coordinate &position, Value token, Board * b){
+    board->update(position, token); //update this one token
+    flip(position, token); // flip other tokens
+    last = position;
+}

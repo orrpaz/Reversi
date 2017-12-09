@@ -89,7 +89,7 @@ void Server::givePriority(int firstClient, int secondClient){
 }
 
 void Server::handleClient(int fromSocket, int toSocket) {
-    char move[6];
+    int move[2];
     while (true) {
         // Read new exercise arguments
         ssize_t n = read(fromSocket, &move, sizeof(move));
@@ -101,13 +101,13 @@ void Server::handleClient(int fromSocket, int toSocket) {
             cout << "Client disconnected" << endl;
             return;
         }
-        cout << "Got move: " << move << endl;
+        cout << "Got move: " << move[0] << "," << move[1] << endl;
         n = write(toSocket, &move, sizeof(move));
         if (n == -1) {
             cout << "Error writing to socket" << endl;
             return;
         }
-        cout << "Sent Move:" << move << endl;
+        cout << "Sent move: " << move[0] << "," << move[1] << endl;
 
     }
 }

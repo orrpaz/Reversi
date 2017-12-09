@@ -18,6 +18,7 @@ protected:
     Board* board; // The Board
     int size; // The size of the board
     set<Coordinate> canMove;
+    Coordinate last;
 public:
     /************************************************************************
 	* Name: Logic (Default Constructor)
@@ -50,13 +51,15 @@ public:
 	* Operation: Calculates the whole possible moves for a player
 	*************************************************************************/
     virtual void calculateAll(const Value &player1);
+    //Return the last played move
+    virtual Coordinate getLastMove();
 
-    /************************************************************************
-	* Name: availableMoves
-	* Input: -
-	* Output: -
-	* Operation: Calculate and print the legal moves for a player, if any.
-	*************************************************************************/
+        /************************************************************************
+        * Name: availableMoves
+        * Input: -
+        * Output: -
+        * Operation: Calculate and print the legal moves for a player, if any.
+        *************************************************************************/
     virtual set<Coordinate> availableMoves(const Value token) = 0;
 
     /************************************************************************
@@ -99,6 +102,8 @@ public:
     * Operation: Make the logic to work on the input board
     *************************************************************************/
     virtual void setCurrentBoard(Board * b) = 0;
+
+    virtual void makeMove(Coordinate &c, Value v, Board * b) = 0;
 };
 
 

@@ -60,10 +60,10 @@ void GameManager::initialize(const int &size) {
                 int priority = clientCase();
                 if (priority == 1) {
                     players[0] = new HumanPlayer(p1Token);
-                    players[1] = new RemotePlayer(p2Token, client);
+                    players[1] = new RemotePlayer(p2Token, client, priority);
                 } else {
                     players[1] = new HumanPlayer(p2Token);
-                    players[0] = new RemotePlayer(p1Token, client);
+                    players[0] = new RemotePlayer(p1Token, client, priority);
                 }
                 flag = 0;
                 break;
@@ -74,26 +74,12 @@ void GameManager::initialize(const int &size) {
         }
     }
 }
-int GameManager::clientCase() {
-   // client = new Client("127.0.0.1", 8001);
-    client = new Client("../exe/setting_client.txt");
-    try {
-        client->connectToServer();
-
-    } catch (const char *msg) {
-        cout << "Failed to connect to server. Reason:   " << msg << endl;
-        delete[] players;
-        delete(printer);
-        exit(-1);
-    }
-    int priority = client->getPriorityValue();
-    cout << "priority: \n" << priority;
-    return priority;
-}
 
 void GameManager::run() {
     tie = 0; //updates when player cant move
     int turn = 0;
+//    cout << "Player 1:" << char(players[0]->getToken()) << "\n";
+//    cout << "Player 2:" << char(players[1]->getToken()) << "\n";
     while(!board->isFull()) {
         playTurn(players[turn]); // play current turn
 
@@ -109,8 +95,7 @@ void GameManager::run() {
 void GameManager::playTurn(Player *&player) {
     printer->printBoard(board);
     const Value token = player->getToken();
-    printer->yourTurn(token);
-
+    player->startTurn(printer);
     set<Coordinate> availableMoves = logic->availableMoves(token); // Get available moves
 
     if (!availableMoves.empty()) { //Check if there are avaliable moves for the player
@@ -119,9 +104,7 @@ void GameManager::playTurn(Player *&player) {
         tie = 0;
     } else {
         tie++; //if it equals to 2 - theres a tie
-        printer->cantMove(); //print that the player cant move
-        char pressAnyKey;
-        cin >> pressAnyKey; //wait for user to press any key
+        player->cantMove(printer);
     }
 }
 
@@ -133,8 +116,7 @@ void GameManager::putNext(Player *&p, set<Coordinate> &availableMoves) const{
         if (logic->isLegal(position)) { //Check if the move is legal
             flag = false;
             printer->playingMove(position);
-            board->update(position, p->getToken()); //update this one token
-            logic->flip(position, p->getToken()); // flip other tokens
+            logic->makeMove(position, p->getToken(),board); // flip other tokens
         } else {
             printer->massage("Illegal move\n");
         }
@@ -165,3 +147,19 @@ void GameManager::endGame() {
     winner();
 }
 
+int GameManager::clientCase() {
+    // client = new Client("127.0.0.1", 8001);
+    client = new Client("../exe/setting_client.txt");
+    try {
+        client->connectToServer();
+
+    } catch (const char *msg) {
+        cout << "Failed to connect to server. Reason:   " << msg << endl;
+        delete[] players;
+        delete(printer);
+        exit(-1);
+    }
+    int priority = client->getPriorityValue();
+    cout << "priority: " << priority << endl;
+    return priority;
+}

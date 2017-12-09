@@ -40,6 +40,23 @@ public:
     virtual Value getToken();
 
     /************************************************************************
+    * Name: startTurn
+    * Input: -
+    * Output:
+    * Operation: Start the turn of the player
+    *************************************************************************/
+    virtual void startTurn(Printer* printer) const = 0;
+    /************************************************************************
+    * Name: cantMove
+    * Input: -
+    * Output:
+    * Operation: Respone to a situation that the player cant move
+    *************************************************************************/
+    virtual void cantMove(Printer* printer) const = 0;
+
+
+
+    /************************************************************************
     * Name: MakeTurn
     * Input: -
     * Output: -

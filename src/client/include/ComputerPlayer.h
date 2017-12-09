@@ -22,6 +22,7 @@ public:
     * Operation: Not in use right now
     *************************************************************************/
     ~ComputerPlayer();
+
     /************************************************************************
     * Name: MakeTurn
     * Input: -
@@ -30,6 +31,8 @@ public:
      * Calculate the best option for the computer by minMax algorithm.
     *************************************************************************/
     virtual Coordinate makeTurn(Logic* l, Board* originalBoard, Printer* printer, set<Coordinate> availableMoves) const;
+    virtual void startTurn(Printer* printer) const;
+    virtual void cantMove(Printer* printer) const;
 };
 
 

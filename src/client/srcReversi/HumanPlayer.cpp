@@ -32,3 +32,11 @@ Coordinate HumanPlayer::makeTurn(Logic* l, Board* b, Printer* printer, set<Coord
     printer->massage("\n");
     return Coordinate(row - 1, col - 1); //the -- because the input is higher
 }
+void HumanPlayer::startTurn(Printer* printer) const {
+    printer->yourTurn(sign);
+}
+void HumanPlayer::cantMove(Printer* printer) const {
+    printer->cantMove(); //print that the player cant move
+    char pressAnyKey;
+    cin >> pressAnyKey; //wait for user to press any key
+}

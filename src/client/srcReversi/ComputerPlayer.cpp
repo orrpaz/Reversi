@@ -70,3 +70,12 @@ Coordinate ComputerPlayer::makeTurn(Logic* logic, Board* originalBoard, Printer*
 //    delete(tempBoard);
 return Coordinate(minRow ,minCol);
 }
+
+void ComputerPlayer::startTurn(Printer* printer) const {
+    printer->yourTurn(sign);
+}
+void ComputerPlayer::cantMove(Printer* printer) const {
+    printer->cantMove(); //print that the player cant move
+    char pressAnyKey;
+    cin >> pressAnyKey; //wait for user to press any key
+}
