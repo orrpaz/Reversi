@@ -12,9 +12,11 @@ public:
     Client(const char* fileName);
     void connectToServer();
     int getPriorityValue();
+    int getClientSocket() const;
     const char * getServerIp(){
         return serverIP;
     }
+
 private:
     char serverIP[SIZEIP];
     int serverPort;

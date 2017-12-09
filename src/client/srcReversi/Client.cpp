@@ -66,9 +66,13 @@ void Client::connectToServer() {
     }
     cout << "Connected to server" << endl << "Waiting for the other players..." << endl;
 }
+int Client::getClientSocket() const{
+    return clientSocket;
+}
 
 int Client::getPriorityValue() {
     int priority;
     ssize_t n = read(clientSocket, &priority, sizeof(priority));
     return priority;
 }
+

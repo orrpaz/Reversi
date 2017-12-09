@@ -13,8 +13,8 @@ private:
 
 public:
     RemotePlayer(const Value t ,const  Client* client);
-    void sendCoordinate(int x, int y);
-    void getCoordinateFromServer(int x, int y);
+    void sendCoordinate(Coordinate coordinate);
+    void getCoordinateFromServer(Coordinate coordinate);
     virtual Coordinate makeTurn(Logic* l, Board* b, Printer* printer, set<Coordinate> availableMoves) const;
 };
 

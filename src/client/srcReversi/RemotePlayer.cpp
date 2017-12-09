@@ -2,7 +2,11 @@
 // Created by or on 06/12/17.
 //
 #include <iostream>
+#include <string>
+#include <unistd.h>
 #include "../include/RemotePlayer.h"
+#include "../include/Client.h"
+
 
 
 using namespace std;
@@ -13,12 +17,22 @@ Coordinate RemotePlayer::makeTurn(Logic* logic, Board* originalBoard, Printer* p
 
 }
 
-void RemotePlayer::sendCoordinate(int x, int y) {
+void RemotePlayer::sendCoordinate(Coordinate coordinate) {
 
+
+    ssize_t n = write(client->getClientSocket(),&coordinate ,sizeof (Coordinate));
+    if (n == -1) {
+
+        throw "Error writing x to socket";
+    }
 }
 
-void RemotePlayer::getCoordinateFromServer(int x, int y) {
+void RemotePlayer::getCoordinateFromServer(Coordinate coordinate) {
+    ssize_t n = read(client->getClientSocket(),&coordinate ,sizeof (Coordinate));
+    if (n == -1) {
 
+        throw "Error writing x to socket";
+    }
 }
 
 
