@@ -28,9 +28,9 @@ public:
     * Output: -
     * Operation: Gets a row and a col from the human player and makes a move
     *************************************************************************/
-    virtual Coordinate makeTurn(Logic* l, Board* b, Printer* printer, set<Coordinate> availableMoves) const;
-    virtual void startTurn(Printer* printer) const;
-    virtual void cantMove(Printer* printer) const;
+    virtual Coordinate makeTurn(Logic* l, Board* b, Printer* printer, set<Coordinate> availableMoves);
+    virtual void startTurn(Printer* printer, const Value &sign, Coordinate c) const;
+    virtual void cantMove(Printer* printer, Logic* l) const;
 };
 
 

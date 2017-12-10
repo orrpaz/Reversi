@@ -11,20 +11,23 @@ using namespace std;
 }
 HumanPlayer::~HumanPlayer() {
 }
-Coordinate HumanPlayer::makeTurn(Logic* l, Board* b, Printer* printer, set<Coordinate> availableMoves) const{
+Coordinate HumanPlayer::makeTurn(Logic* l, Board* b, Printer* printer, set<Coordinate> availableMoves){
+    printer->availableMoves(availableMoves); // Print available moves
     int row, col;
     printer->massage("\nEnter Row: ");
     cin >> row;
-    while ((!cin)) {
-        printer->massage("Endter a number!\nEnter Row: ");
+    while ((!cin) || (row < 1)) {
+        printer->massage("Input MUST be a positive NUMBER!\n");
+        printer->massage("Enter Row: ");
         cin.clear(); // clears error flags
         cin.ignore(9999, '\n');
         cin >> row;
     }
     printer->massage("Enter Col: ");
     cin >> col;
-    while ((!cin)) {
-        printer->massage("Enter a number!\nEnter Col: ");
+    while ((!cin) || (col < 1)) {
+        printer->massage("Input MUST be a positive NUMBER!\n");
+        printer->massage("Enter Col: ");
         cin.clear(); // clears error flags
         cin.ignore(9999, '\n');
         cin >> col;
@@ -32,10 +35,12 @@ Coordinate HumanPlayer::makeTurn(Logic* l, Board* b, Printer* printer, set<Coord
     printer->massage("\n");
     return Coordinate(row - 1, col - 1); //the -- because the input is higher
 }
-void HumanPlayer::startTurn(Printer* printer) const {
+void HumanPlayer::startTurn(Printer* printer, const Value &val, Coordinate c) const {
+    printer->playingMove(val, c);
     printer->yourTurn(sign);
 }
-void HumanPlayer::cantMove(Printer* printer) const {
+void HumanPlayer::cantMove(Printer* printer, Logic* l) const {
+    l->couldntMove();
     printer->cantMove(); //print that the player cant move
     char pressAnyKey;
     cin >> pressAnyKey; //wait for user to press any key

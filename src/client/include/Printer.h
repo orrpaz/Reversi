@@ -27,7 +27,7 @@ public:
     //Print that it's the input players turn
     virtual void yourTurn(const Value &player) const = 0;
     //Print the Coordinate of the played move
-    virtual void playingMove(Coordinate &c) = 0;
+    virtual void playingMove(Value v, Coordinate c) = 0;
     //Prints the winner
     virtual void winner(const Value &p1, const Value &p2, const int &score1,
                         const int &score2) const = 0;

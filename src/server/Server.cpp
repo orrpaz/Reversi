@@ -55,21 +55,21 @@ void Server::start() {
 
         givePriority(firstClient, secondClient);
 
-        for (int i = 0; i < 10; i++) {
+        int i = 0;
+        bool flag = true;
+        while(flag){
             if (i % 2 == 0) {
-                handleClient(firstClient, secondClient);
+                flag = handleClient(firstClient, secondClient);
 
             } else {
-                handleClient(secondClient, firstClient);
+                flag = handleClient(secondClient, firstClient);
 
             }
+            i++;
         }
-
-
         // Close communication with the client
         close(firstClient);
         close(secondClient);
-
     }
 }
 
@@ -88,28 +88,30 @@ void Server::givePriority(int firstClient, int secondClient){
     }
 }
 
-void Server::handleClient(int fromSocket, int toSocket) {
-    int move[2];
-    while (true) {
-        // Read new exercise arguments
-        ssize_t n = read(fromSocket, &move, sizeof(move));
-        if (n == -1) {
-            cout << "Error reading " << endl;
-            return;
-        }
-        if (n == 0) {
-            cout << "Client disconnected" << endl;
-            return;
-        }
-        cout << "Got move: " << move[0] << "," << move[1] << endl;
-        n = write(toSocket, &move, sizeof(move));
-        if (n == -1) {
-            cout << "Error writing to socket" << endl;
-            return;
-        }
-        cout << "Sent move: " << move[0] << "," << move[1] << endl;
+bool Server::handleClient(int fromSocket, int toSocket) {
 
+    int move[2];
+    ssize_t n = read(fromSocket, &move, sizeof(move));
+    if (n == -1) {
+        cout << "Error reading " << endl;
+        return false;
     }
+    if (n == 0) {
+        cout << "Client disconnected" << endl;
+        return false;
+    }
+    cout << "Got move: " << move[0] + 1 << "," << move[1] + 1 << endl;
+    if ((move[0] == -1) && (move[1] == -1)) {
+        return false;
+    }
+
+
+    n = write(toSocket, &move, sizeof(move));
+    if (n == -1) {
+        cout << "Error writing to socket" << endl;
+        return false;
+    }
+    cout << "Sent move: " << move[0] + 1 << "," << move[1] + 1 << endl;
 }
 
 void Server::stop() {

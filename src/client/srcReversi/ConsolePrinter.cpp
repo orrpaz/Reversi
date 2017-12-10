@@ -74,6 +74,13 @@ void ConsolePrinter::winner(const Value &p1, const Value &p2, const int &score1,
         }
     }
 }
-void ConsolePrinter::playingMove(Coordinate &c) {
-    cout << "Playing: (" << c.getRow() + 1<< "," << c.getCol() + 1 << ")\n" << endl;
+void ConsolePrinter::playingMove(Value sign, Coordinate c) {
+    if(c.getRow() >= 0) {
+        cout << (char)sign << " Played: (" << c.getRow() + 1
+             << "," << c.getCol() + 1 << ")\n" << endl;
+    } else {
+        if (c.getRow() == -2) {
+            cout << (char)sign << " wasn't able to move\n";
+        }
+    }
 }

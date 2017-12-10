@@ -53,6 +53,7 @@ public:
     virtual void calculateAll(const Value &player1);
     //Return the last played move
     virtual Coordinate getLastMove();
+    virtual void couldntMove();
 
         /************************************************************************
         * Name: availableMoves

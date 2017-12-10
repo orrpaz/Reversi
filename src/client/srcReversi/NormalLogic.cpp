@@ -151,7 +151,7 @@ set<Coordinate> NormalLogic::availableMoves(const Value token){
 bool NormalLogic::isLegal(Coordinate &c) const{
     int row = c.getRow();
     int col = c.getCol();
-    if ((row >= size) || (row < 0) || (col >= size) || (col < 0)) {
+    if ((row >= size) || (col >= size)) {
         return false;
     }
 

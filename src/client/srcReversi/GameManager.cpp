@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <zconf.h>
 #include "../include/GameManager.h"
 #include "../include/ConsolePrinter.h"
 #include "../include/HumanPlayer.h"
@@ -78,8 +79,6 @@ void GameManager::initialize(const int &size) {
 void GameManager::run() {
     tie = 0; //updates when player cant move
     int turn = 0;
-//    cout << "Player 1:" << char(players[0]->getToken()) << "\n";
-//    cout << "Player 2:" << char(players[1]->getToken()) << "\n";
     while(!board->isFull()) {
         playTurn(players[turn]); // play current turn
 
@@ -90,21 +89,23 @@ void GameManager::run() {
         turn = 1 - turn; // switch the turn to other player
         logic->endTurn();
     }
+    if (isClientPlay) {
+        playTurn(players[turn]); // to send the last move
+    }
     endGame();
 }
 void GameManager::playTurn(Player *&player) {
     printer->printBoard(board);
     const Value token = player->getToken();
-    player->startTurn(printer);
     set<Coordinate> availableMoves = logic->availableMoves(token); // Get available moves
+    player->startTurn(printer, board->getOpponent(player->getToken()), logic->getLastMove());
 
     if (!availableMoves.empty()) { //Check if there are avaliable moves for the player
-        printer->availableMoves(availableMoves); // Print available moves
         putNext(player, availableMoves); //Player puts his token
         tie = 0;
     } else {
         tie++; //if it equals to 2 - theres a tie
-        player->cantMove(printer);
+        player->cantMove(printer, logic);
     }
 }
 
@@ -113,9 +114,12 @@ void GameManager::putNext(Player *&p, set<Coordinate> &availableMoves) const{
 
     while (flag) {
         Coordinate position(p->makeTurn(logic, board, printer, availableMoves)); //Get coordinate by player's choose
+        if (position.getRow() < 0) { //means that the player couldn't move
+            break;
+        }
+
         if (logic->isLegal(position)) { //Check if the move is legal
             flag = false;
-            printer->playingMove(position);
             logic->makeMove(position, p->getToken(),board); // flip other tokens
         } else {
             printer->massage("Illegal move\n");
@@ -143,6 +147,16 @@ void GameManager::winner() const{
 }
 
 void GameManager::endGame() {
+    if (isClientPlay) {
+        int move[2];
+        move[0] = -1;
+        move[1] = -1;
+        ssize_t n = write(client->getClientSocket(),&move ,sizeof (move));
+        if (n == -1) {
+            throw "Error writing x to socket";
+        }
+    }
+
     printer->printBoard(board);
     winner();
 }

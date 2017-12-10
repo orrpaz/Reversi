@@ -30,9 +30,9 @@ public:
     * Operation: Gets a row and a col from the Computer player and makes a move.
      * Calculate the best option for the computer by minMax algorithm.
     *************************************************************************/
-    virtual Coordinate makeTurn(Logic* l, Board* originalBoard, Printer* printer, set<Coordinate> availableMoves) const;
-    virtual void startTurn(Printer* printer) const;
-    virtual void cantMove(Printer* printer) const;
+    virtual Coordinate makeTurn(Logic* l, Board* originalBoard, Printer* printer, set<Coordinate> availableMoves);
+    virtual void startTurn(Printer* printer, const Value &sign, Coordinate c) const;
+    virtual void cantMove(Printer* printer, Logic* l) const;
 };
 
 

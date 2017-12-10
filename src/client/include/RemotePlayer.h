@@ -17,10 +17,10 @@ public:
     void sendCoordinate(Coordinate &coordinate) const;
     void getCoordinateFromServer(Coordinate &coordinate) const;
     void setPriority(int a);
-    virtual Coordinate makeTurn(Logic* l, Board* b, Printer* printer, set<Coordinate> availableMoves) const;
+    virtual Coordinate makeTurn(Logic* l, Board* b, Printer* printer, set<Coordinate> availableMoves);
 
-    virtual void startTurn(Printer* printer) const;
-    virtual void cantMove(Printer* printer) const;
+    virtual void startTurn(Printer* printer, const Value &sign, Coordinate c) const;
+    virtual void cantMove(Printer* printer, Logic* l) const;
 };
 
 

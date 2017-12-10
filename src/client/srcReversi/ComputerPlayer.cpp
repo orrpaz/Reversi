@@ -11,7 +11,8 @@ ComputerPlayer::ComputerPlayer(const Value t): Player(t) {
 ComputerPlayer::~ComputerPlayer() {}
 
 Coordinate ComputerPlayer::makeTurn(Logic* logic, Board* originalBoard, Printer* printer,
-                                    set<Coordinate> availableMoves) const{
+                                    set<Coordinate> availableMoves) {
+    printer->availableMoves(availableMoves); // Print available moves
 
     printer->massage("\nComputer thinking...\n");
     Board tempBoard(originalBoard);
@@ -71,10 +72,12 @@ Coordinate ComputerPlayer::makeTurn(Logic* logic, Board* originalBoard, Printer*
 return Coordinate(minRow ,minCol);
 }
 
-void ComputerPlayer::startTurn(Printer* printer) const {
+void ComputerPlayer::startTurn(Printer* printer, const Value &sign, Coordinate c) const {
+    printer->playingMove(sign, c);
     printer->yourTurn(sign);
 }
-void ComputerPlayer::cantMove(Printer* printer) const {
+void ComputerPlayer::cantMove(Printer* printer, Logic* l) const {
+    l->couldntMove();
     printer->cantMove(); //print that the player cant move
     char pressAnyKey;
     cin >> pressAnyKey; //wait for user to press any key

@@ -10,7 +10,7 @@ class Server {
 private:
     int port;
     int serverSocket;
-    void handleClient(int firstClient, int secondClient);
+    bool handleClient(int firstClient, int secondClient);
     void givePriority(int firstClient, int secondClient);
 
 public:
