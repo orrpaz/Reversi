@@ -25,6 +25,7 @@ GameManager::~GameManager() {
     delete(board);
     delete(printer);
     if (isClientPlay) {
+        client->closeClient();
         delete(client);
     }
 
@@ -173,15 +174,13 @@ void GameManager::endGame() {
 }
 
 int GameManager::clientCase() {
-    // client = new Client("127.0.0.1", 8001);
     client = new Client("../exe/setting_client.txt");
     try {
         client->connectToServer();
 
     } catch (const char *msg) {
         cout << "Failed to connect to server. Reason:   " << msg << endl;
-        delete[] players;
-        delete(printer);
+        delete this; // call the destructor
         exit(-1);
     }
     int priority = client->getPriorityValue();

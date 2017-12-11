@@ -11,6 +11,7 @@ public:
     Client(const char *serverIP, int serverPort);
     Client(const char* fileName);
     void connectToServer();
+    void closeClient();
     int getPriorityValue();
     int getClientSocket() const;
     const char * getServerIp(){

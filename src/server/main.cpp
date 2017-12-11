@@ -18,6 +18,7 @@ int main() {
 
         stringstream(line) >> port;
     }
+    inFile.close();
     Server server(port);
     try {
         server.start();

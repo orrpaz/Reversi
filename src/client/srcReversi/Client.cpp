@@ -76,4 +76,7 @@ int Client::getPriorityValue() {
     ssize_t n = read(clientSocket, &priority, sizeof(priority));
     return priority;
 }
+void Client::closeClient(){
+    close(clientSocket);
+}
 
