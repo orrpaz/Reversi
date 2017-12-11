@@ -8,7 +8,7 @@ using namespace std;
 int main() {
     int port;
     ifstream inFile;
-    inFile.open("../exe/setting_server.txt");
+    inFile.open("setting_server.txt");
     if(!inFile.is_open()) {
         throw "Can't open file";
     }

@@ -6,7 +6,8 @@
 #define REVERSI_REMOTEPLAYER_H
 
 #include "Player.h"
-class Client;
+#include "Client.h"
+
 class RemotePlayer : public Player {
 private:
     const Client *client;

@@ -1,14 +1,13 @@
 
 #include <iostream>
 #include <cstdlib>
-#include <zconf.h>
+#include <unistd.h>
 #include "../include/GameManager.h"
 #include "../include/ConsolePrinter.h"
 #include "../include/HumanPlayer.h"
 #include "../include/ComputerPlayer.h"
-#include "../include/Client.h"
 #include "../include/RemotePlayer.h"
-
+#include "../include/Client.h"
 using namespace std;
 
 GameManager::GameManager() : board(), logic(), players(), printer(), tie() {
@@ -18,6 +17,7 @@ GameManager::GameManager(const int &size) : board(), logic(), players(), printer
     initialize(size);
 }
 GameManager::~GameManager() {
+    cout << "OR hagever" <<endl;
     delete(players[0]);
     delete(players[1]);
     delete[] players;
@@ -57,9 +57,14 @@ void GameManager::initialize(const int &size) {
                 flag = 0;
                 break;
             case '3': {
-
                 isClientPlay = true;
                 int priority = clientCase();
+
+                if (priority == 0) { // If client connection failed
+                //    players[0] = new HumanPlayer(p1Token);
+                  //  players[1] = new HumanPlayer(p2Token);
+                    return;
+                }
                 if (priority == 1) {
                     players[0] = new HumanPlayer(p1Token);
                     players[1] = new RemotePlayer(p2Token, client, priority);
@@ -75,6 +80,7 @@ void GameManager::initialize(const int &size) {
                 break;
         }
     }
+    run();
 }
 
 void GameManager::run() {
@@ -134,7 +140,6 @@ void GameManager::putNext(Player *&p, set<Coordinate> &availableMoves) const{
             logic->makeMove(position, p->getToken(),board); // flip other tokens
         } else {
             printer->massage("Illegal move\n");
-            cout  << position.getRow() << "," << position.getCol() <<"\n";
         }
     }
 }
@@ -174,14 +179,13 @@ void GameManager::endGame() {
 }
 
 int GameManager::clientCase() {
-    client = new Client("../exe/setting_client.txt");
+    client = new Client("setting_client.txt");
     try {
         client->connectToServer();
 
     } catch (const char *msg) {
         cout << "Failed to connect to server. Reason:   " << msg << endl;
-        delete this; // call the destructor
-        exit(-1);
+        return 0;
     }
     int priority = client->getPriorityValue();
     cout << "You are player number: " << priority << endl;

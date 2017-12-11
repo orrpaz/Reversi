@@ -8,6 +8,5 @@ using namespace std;
 int main()
 {
   GameManager g(4);
-    g.run();
-    return 0;
+  return 0;
 }
