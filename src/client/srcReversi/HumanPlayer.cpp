@@ -12,6 +12,10 @@ using namespace std;
 HumanPlayer::~HumanPlayer() {
 }
 Coordinate HumanPlayer::makeTurn(Logic* l, Board* b, Printer* printer, set<Coordinate> availableMoves){
+    if (availableMoves.empty()) {
+        return Coordinate(-1, -1);
+    }
+
     printer->availableMoves(availableMoves); // Print available moves
     int row, col;
     printer->massage("\nEnter Row: ");

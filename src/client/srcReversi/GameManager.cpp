@@ -82,15 +82,22 @@ void GameManager::run() {
     while(!board->isFull()) {
         playTurn(players[turn]); // play current turn
 
+        turn = 1 - turn; // switch the turn to other player
+
         if (tie == 2) { // if both players cant move
            printer->noMoreMoves();
             break;
         }
-        turn = 1 - turn; // switch the turn to other player
         logic->endTurn();
     }
-    if (isClientPlay) {
-        playTurn(players[turn]); // to send the last move
+    if (isClientPlay) { //play another turn in order to send the last move to other player
+      //  cout << "Here\n";
+       // printer->printBoard(board);
+
+       //3 cout << "Turn: " <<turn +1 << endl;
+        const Value token = players[turn]->getToken();
+        set<Coordinate> finalMove = logic->availableMoves(token); //its empty
+        putNext(players[turn], finalMove);
     }
     endGame();
 }
@@ -100,12 +107,15 @@ void GameManager::playTurn(Player *&player) {
     set<Coordinate> availableMoves = logic->availableMoves(token); // Get available moves
     player->startTurn(printer, board->getOpponent(player->getToken()), logic->getLastMove());
 
+
     if (!availableMoves.empty()) { //Check if there are avaliable moves for the player
         putNext(player, availableMoves); //Player puts his token
         tie = 0;
     } else {
         tie++; //if it equals to 2 - theres a tie
-        player->cantMove(printer, logic);
+      //  if(!board->isFull()){ //If the board is full the game should be end without this print
+            player->cantMove(printer, logic);
+        //}
     }
 }
 
@@ -114,7 +124,7 @@ void GameManager::putNext(Player *&p, set<Coordinate> &availableMoves) const{
 
     while (flag) {
         Coordinate position(p->makeTurn(logic, board, printer, availableMoves)); //Get coordinate by player's choose
-        if (position.getRow() < 0) { //means that the player couldn't move
+        if (position.getRow() < 0 || (board->isFull()) || (tie ==2)) { //means that the player couldn't move
             break;
         }
 
@@ -123,6 +133,7 @@ void GameManager::putNext(Player *&p, set<Coordinate> &availableMoves) const{
             logic->makeMove(position, p->getToken(),board); // flip other tokens
         } else {
             printer->massage("Illegal move\n");
+            cout  << position.getRow() << "," << position.getCol() <<"\n";
         }
     }
 }

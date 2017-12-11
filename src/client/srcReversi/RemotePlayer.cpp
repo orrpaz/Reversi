@@ -20,9 +20,14 @@ void RemotePlayer::setPriority(int a) {
 Coordinate RemotePlayer::makeTurn(Logic* logic, Board* originalBoard, Printer* printer,
                                     set<Coordinate> availableMoves) {
     Coordinate c = logic->getLastMove();
-    if (priority == 1) {
+    if (priority == 1) { //We dont want the second player to send coordinate at first turn
     sendCoordinate(c);
     }
+
+//    if(availableMoves.empty()) { //in the final move, the
+  //      return Coordinate(-1,-1);
+    //}
+
     priority = 1;
     getCoordinateFromServer(c);
     return c;
@@ -36,7 +41,7 @@ void RemotePlayer::sendCoordinate(Coordinate &coordinate) const{
     move[1] = coordinate.getCol();
     ssize_t n = write(client->getClientSocket(),&move ,sizeof (move));
     if (n == -1) {
-        throw "Error writing x to socket";
+        throw "Error writing move to socket";
     }
 }
 
@@ -45,7 +50,7 @@ void RemotePlayer::getCoordinateFromServer(Coordinate &coordinate) const{
     ssize_t n = read(client->getClientSocket(),&move ,sizeof (move));
     if (n == -1) {
 
-        throw "Error writing x to socket";
+        throw "Error reading move from socket";
     }
     coordinate = Coordinate(move[0], move[1]);
 }

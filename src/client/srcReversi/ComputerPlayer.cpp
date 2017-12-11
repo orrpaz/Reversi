@@ -14,7 +14,7 @@ Coordinate ComputerPlayer::makeTurn(Logic* logic, Board* originalBoard, Printer*
                                     set<Coordinate> availableMoves) {
     printer->availableMoves(availableMoves); // Print available moves
 
-    printer->massage("\nComputer thinking...\n");
+    printer->massage("\nComputer thinking...\n\n");
     Board tempBoard(originalBoard);
 
 //    Board* tempBoard = new Board(originalBoard);
@@ -37,7 +37,7 @@ Coordinate ComputerPlayer::makeTurn(Logic* logic, Board* originalBoard, Printer*
 
         set<Coordinate> humanMoves = logic->availableMoves(opponent);
         if (humanMoves.empty()) {
-            printer->printBoard(&tempBoard);
+         //   printer->printBoard(&tempBoard);
             maxScore = tempBoard.score(opponent);
         }
 
@@ -72,8 +72,8 @@ Coordinate ComputerPlayer::makeTurn(Logic* logic, Board* originalBoard, Printer*
 return Coordinate(minRow ,minCol);
 }
 
-void ComputerPlayer::startTurn(Printer* printer, const Value &sign, Coordinate c) const {
-    printer->playingMove(sign, c);
+void ComputerPlayer::startTurn(Printer* printer, const Value &val, Coordinate c) const {
+    printer->playingMove(val, c);
     printer->yourTurn(sign);
 }
 void ComputerPlayer::cantMove(Printer* printer, Logic* l) const {
