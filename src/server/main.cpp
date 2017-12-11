@@ -1,11 +1,8 @@
-//
-// Created by or on 05/12/17.
-//
-
 #include "Server.h"
 #include <iostream>
 #include <stdlib.h>
 #include <fstream>
+#include <sstream>
 
 using namespace std;
 int main() {
@@ -15,7 +12,12 @@ int main() {
     if(!inFile.is_open()) {
         throw "Can't open file";
     }
-    inFile >> port;
+    string line;
+    while (getline(inFile,line)) {
+        if(line[0] == '#') continue;
+
+        stringstream(line) >> port;
+    }
     Server server(port);
     try {
         server.start();

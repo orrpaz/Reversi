@@ -185,6 +185,6 @@ int GameManager::clientCase() {
         exit(-1);
     }
     int priority = client->getPriorityValue();
-    cout << "priority: " << priority << endl;
+    cout << "You are player number: " << priority << endl;
     return priority;
 }
