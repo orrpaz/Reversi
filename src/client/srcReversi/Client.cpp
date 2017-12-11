@@ -19,6 +19,7 @@ using namespace std;
 //        clientSocket(0) {
 //    cout << "Client" << endl;
 //}
+//amir
 
 Client::Client(const char* fileName) {
     ifstream file;
