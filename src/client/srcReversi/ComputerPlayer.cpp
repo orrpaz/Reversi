@@ -6,11 +6,11 @@
 #include "../include/ComputerPlayer.h"
 
 using namespace std;
-ComputerPlayer::ComputerPlayer(const Value t): Player(t) {
+ComputerPlayer::ComputerPlayer(const Value t ,Printer* p): Player(t) ,printer(p) {
 }
 ComputerPlayer::~ComputerPlayer() {}
 
-Coordinate ComputerPlayer::makeTurn(Logic* logic, Board* originalBoard, Printer* printer,
+Coordinate ComputerPlayer::makeTurn(Logic* logic, Board* originalBoard,
                                     set<Coordinate> availableMoves) {
     printer->availableMoves(availableMoves); // Print available moves
 
@@ -72,11 +72,11 @@ Coordinate ComputerPlayer::makeTurn(Logic* logic, Board* originalBoard, Printer*
 return Coordinate(minRow ,minCol);
 }
 
-void ComputerPlayer::startTurn(Printer* printer, const Value &val, Coordinate c) const {
+void ComputerPlayer::startTurn( const Value &val, Coordinate c) const {
     printer->playingMove(val, c);
     printer->yourTurn(sign);
 }
-void ComputerPlayer::cantMove(Printer* printer, Logic* l) const {
+void ComputerPlayer::cantMove( Logic* l) const {
     l->couldntMove();
     printer->cantMove(); //print that the player cant move
     char pressAnyKey;

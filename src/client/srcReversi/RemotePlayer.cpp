@@ -4,20 +4,21 @@
 #include <iostream>
 #include <string>
 #include <unistd.h>
+#include <cstdio>
 #include "../include/RemotePlayer.h"
 #include "../include/Client.h"
 
 
 
 using namespace std;
-RemotePlayer::RemotePlayer(const Value t, const Client *client,
-                           int p) : Player(t), priority(p), client(client){
+RemotePlayer::RemotePlayer(const Value t, const Client *client, Printer* printer1,
+                           int p) : Player(t), priority(p), client(client) , printer(printer1){
 }
 void RemotePlayer::setPriority(int a) {
     priority = a;
 }
 
-Coordinate RemotePlayer::makeTurn(Logic* logic, Board* originalBoard, Printer* printer,
+Coordinate RemotePlayer::makeTurn(Logic* logic, Board* originalBoard,
                                     set<Coordinate> availableMoves) {
     Coordinate c = logic->getLastMove();
     if (priority == 1) { //We dont want the second player to send coordinate at first turn
@@ -59,17 +60,17 @@ void RemotePlayer::getCoordinateFromServer(Coordinate &coordinate) const{
         }
         coordinate = Coordinate(move[0], move[1]);
     }catch (const char *msg) {
-        cout << "Problem detected: " << msg << endl;
-        cout << "You should restart the game";
-        char a;
-        cin >> a;
+        printer->massage("Problem detected: ");
+        printer->massage(msg);
+        printer->massage("You should restart the game");
+        getchar();
     }
 }
 
-void RemotePlayer::startTurn(Printer* printer, const Value &sign, Coordinate c) const {
+void RemotePlayer::startTurn(const Value &sign, Coordinate c) const {
     printer->massage("waiting for other player's move...\n");
 }
-void RemotePlayer::cantMove(Printer* printer, Logic* l) const {
+void RemotePlayer::cantMove(Logic* l) const {
 
     Coordinate c = l->getLastMove();
     sendCoordinate(c);

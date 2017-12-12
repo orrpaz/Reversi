@@ -14,12 +14,7 @@
 #include <cstring>
 
 using namespace std;
-//Client::Client(char *serverIP, int serverPort):
-//        serverIP(serverIP), serverPort(serverPort),
-//        clientSocket(0) {
-//    cout << "Client" << endl;
-//}
-//amir
+
 
 Client::Client(const char* fileName) {
     ifstream file;
@@ -33,10 +28,6 @@ Client::Client(const char* fileName) {
         file >> this->serverPort;
         this->clientSocket = 0;
 
-//        getline(file, ip);
-//        strcpy(serverIP, ip.c_str());
-//        getline(file, buffer);
-//        serverPort = atoi(buffer.c_str());
     }
     file.close();
 }

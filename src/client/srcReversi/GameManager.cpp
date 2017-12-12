@@ -17,7 +17,6 @@ GameManager::GameManager(const int &size) : board(), logic(), players(), printer
     initialize(size);
 }
 GameManager::~GameManager() {
-    cout << "OR hagever" <<endl;
     delete(players[0]);
     delete(players[1]);
     delete[] players;
@@ -47,30 +46,27 @@ void GameManager::initialize(const int &size) {
         cin >> gameMode;
         switch (gameMode) {
             case '1':
-                players[0] = new HumanPlayer(p1Token);
-                players[1] = new HumanPlayer(p2Token);
+                players[0] = new HumanPlayer(p1Token ,printer);
+                players[1] = new HumanPlayer(p2Token,printer);
                 flag = 0;
                 break;
             case '2':
-                players[0] = new HumanPlayer(p1Token);
-                players[1] = new ComputerPlayer(p2Token);
+                players[0] = new HumanPlayer(p1Token,printer);
+                players[1] = new ComputerPlayer(p2Token,printer);
                 flag = 0;
                 break;
             case '3': {
                 isClientPlay = true;
                 int priority = clientCase();
-
                 if (priority == 0) { // If client connection failed
-                //    players[0] = new HumanPlayer(p1Token);
-                  //  players[1] = new HumanPlayer(p2Token);
                     return;
                 }
                 if (priority == 1) {
-                    players[0] = new HumanPlayer(p1Token);
-                    players[1] = new RemotePlayer(p2Token, client, priority);
+                    players[0] = new HumanPlayer(p1Token,printer);
+                    players[1] = new RemotePlayer(p2Token, client,printer, priority);
                 } else {
-                    players[1] = new HumanPlayer(p2Token);
-                    players[0] = new RemotePlayer(p1Token, client, priority);
+                    players[1] = new HumanPlayer(p2Token,printer);
+                    players[0] = new RemotePlayer(p1Token, client,printer, priority);
                 }
                 flag = 0;
                 break;
@@ -98,10 +94,6 @@ void GameManager::run() {
         logic->endTurn();
     }
     if (isClientPlay) { //play another turn in order to send the last move to other player
-      //  cout << "Here\n";
-       // printer->printBoard(board);
-
-       //3 cout << "Turn: " <<turn +1 << endl;
         const Value token = players[turn]->getToken();
         set<Coordinate> finalMove = logic->availableMoves(token); //its empty
         putNext(players[turn], finalMove);
@@ -112,7 +104,7 @@ void GameManager::playTurn(Player *&player) {
     printer->printBoard(board);
     const Value token = player->getToken();
     set<Coordinate> availableMoves = logic->availableMoves(token); // Get available moves
-    player->startTurn(printer, board->getOpponent(player->getToken()), logic->getLastMove());
+    player->startTurn(board->getOpponent(player->getToken()), logic->getLastMove());
 
 
     if (!availableMoves.empty()) { //Check if there are avaliable moves for the player
@@ -121,7 +113,7 @@ void GameManager::playTurn(Player *&player) {
     } else {
         tie++; //if it equals to 2 - theres a tie
       //  if(!board->isFull()){ //If the board is full the game should be end without this print
-            player->cantMove(printer, logic);
+            player->cantMove(logic);
         //}
     }
 }
@@ -130,7 +122,7 @@ void GameManager::putNext(Player *&p, set<Coordinate> &availableMoves) const{
     bool flag = true;
 
     while (flag) {
-        Coordinate position(p->makeTurn(logic, board, printer, availableMoves)); //Get coordinate by player's choose
+        Coordinate position(p->makeTurn(logic, board, availableMoves)); //Get coordinate by player's choose
         if (position.getRow() < 0 || (board->isFull()) || (tie ==2)) { //means that the player couldn't move
             break;
         }
@@ -179,7 +171,7 @@ void GameManager::endGame() {
 }
 
 int GameManager::clientCase() {
-    client = new Client("setting_client.txt");
+    client = new Client("../exe/setting_client.txt");
     try {
         client->connectToServer();
 

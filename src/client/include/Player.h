@@ -45,14 +45,14 @@ public:
     * Output:
     * Operation: Start the turn of the player
     *************************************************************************/
-    virtual void startTurn(Printer* printer, const Value &sign, Coordinate c) const = 0;
+    virtual void startTurn( const Value &sign, Coordinate c) const = 0;
     /************************************************************************
     * Name: cantMove
     * Input: -
     * Output:
     * Operation: Respone to a situation that the player cant move
     *************************************************************************/
-    virtual void cantMove(Printer* printer, Logic* l) const = 0;
+    virtual void cantMove( Logic* l) const = 0;
 
 
 
@@ -62,7 +62,7 @@ public:
     * Output: -
     * Operation: Make the turn after the player chooses row and col
     *************************************************************************/
-    virtual Coordinate makeTurn(Logic* l, Board* b, Printer* printer, set<Coordinate> availableMoves) = 0;
+    virtual Coordinate makeTurn(Logic* l, Board* b, set<Coordinate> availableMoves) = 0;
 };
 
 

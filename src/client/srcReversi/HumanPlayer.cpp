@@ -7,11 +7,11 @@
 #include "../include/HumanPlayer.h"
 
 using namespace std;
-    HumanPlayer::HumanPlayer(const Value t): Player(t) {
+    HumanPlayer::HumanPlayer(const Value t, Printer* p): Player(t), printer(p){
 }
 HumanPlayer::~HumanPlayer() {
 }
-Coordinate HumanPlayer::makeTurn(Logic* l, Board* b, Printer* printer, set<Coordinate> availableMoves){
+Coordinate HumanPlayer::makeTurn(Logic* l, Board* b, set<Coordinate> availableMoves){
     if (availableMoves.empty()) {
         return Coordinate(-1, -1);
     }
@@ -39,11 +39,11 @@ Coordinate HumanPlayer::makeTurn(Logic* l, Board* b, Printer* printer, set<Coord
     printer->massage("\n");
     return Coordinate(row - 1, col - 1); //the -- because the input is higher
 }
-void HumanPlayer::startTurn(Printer* printer, const Value &val, Coordinate c) const {
+void HumanPlayer::startTurn( const Value &val, Coordinate c) const {
     printer->playingMove(val, c);
     printer->yourTurn(sign);
 }
-void HumanPlayer::cantMove(Printer* printer, Logic* l) const {
+void HumanPlayer::cantMove( Logic* l) const {
     l->couldntMove();
     printer->cantMove(); //print that the player cant move
     char pressAnyKey;
