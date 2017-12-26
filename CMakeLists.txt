@@ -4,6 +4,8 @@ project(Reversi)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lpthread")
 set(CMAKE_CXX_STANDARD 98)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++98 -pthread")
+
 add_subdirectory(src/lib/google_tests)
 include_directories(src/lib/google_tests/googletest/include)
 include_directories(src/lib/google_tests/googlemock/include)
@@ -43,7 +45,10 @@ set(SOURCE_FILES src/client/srcReversi/Board.cpp
         src/client/srcReversi/ComputerPlayer.cpp
         src/client/include/ComputerPlayer.h
         src/server/Server.cpp
-        src/server/Server.h)
+        src/server/Server.h
+        src/server/Command.h src/server/CommandManager.cpp src/server/CommandManager.h
+        src/server/StartCommand.cpp src/server/StartCommand.h
+        src/server/Game.cpp src/server/Game.h)
 
 add_executable(Reversi ${SOURCE_FILES} src/client/srcReversi/main.cpp)
 add_executable(server ${SOURCE_FILES} src/server/main.cpp)
