@@ -18,7 +18,7 @@ set(SOURCE_FILES src/client/srcReversi/Board.cpp
         src/client/include/Board.h
         src/client/srcReversi/Cell.cpp
         src/client/include/Cell.h
-        
+
         src/client/srcReversi/Client.cpp
         src/client/include/Client.h
         src/client/srcReversi/RemotePlayer.cpp
@@ -48,13 +48,12 @@ set(SOURCE_FILES src/client/srcReversi/Board.cpp
         src/server/Server.h
         src/server/Command.h src/server/CommandManager.cpp src/server/CommandManager.h
         src/server/StartCommand.cpp src/server/StartCommand.h
-        src/server/Game.cpp src/server/Game.h)
+        src/server/Game.cpp src/server/Game.h src/server/ClientHandler.cpp src/server/ClientHandler.h)
 
 add_executable(Reversi ${SOURCE_FILES} src/client/srcReversi/main.cpp)
 add_executable(server ${SOURCE_FILES} src/server/main.cpp)
 add_executable(TestGame  ${SOURCE_FILES} ${TEST_FILES} src/tests/main_test.cpp)
 target_link_libraries(TestGame gtest gtest_main pthread)
-
 
 
 

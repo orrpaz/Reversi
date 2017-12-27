@@ -171,7 +171,7 @@ void GameManager::endGame() {
 }
 
 int GameManager::clientCase() {
-    client = new Client("../exe/setting_client.txt");
+    client = new Client("setting_client.txt");
     try {
         client->connectToServer();
 
@@ -179,6 +179,11 @@ int GameManager::clientCase() {
         cout << "Failed to connect to server. Reason:   " << msg << endl;
         return 0;
     }
+
+    //
+    ///Enter Command
+    //
+
     int priority = client->getPriorityValue();
     cout << "You are player number: " << priority << endl;
     return priority;

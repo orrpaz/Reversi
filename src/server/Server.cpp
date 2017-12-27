@@ -5,12 +5,15 @@
 #include "Server.h"
 
 #include "Server.h"
+#include "ClientHandler.h"
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
 #include <string.h>
 #include <iostream>
 #include <stdio.h>
+#include <vector>
+
 using namespace std;
 #define MAX_CONNECTED_CLIENTS 2
 
@@ -39,6 +42,27 @@ void Server::start() {
     // Define the client socket's structures
     struct sockaddr_in clientAddress;
     socklen_t clientAddressLen = sizeof((struct sockaddr *)&clientAddress);
+
+    //
+    ClientHandler handler;
+
+    cout << "Waiting for client connections..." << endl;
+    vector<pthread_t> threads;
+    while (true) {
+        // Accept a new client connection
+        int firstClient = accept(serverSocket, (struct sockaddr *) &clientAddress, &clientAddressLen);
+        cout << "Client 1 connected" << endl;
+        if (firstClient == -1)
+            throw "Error on accept Client 1";
+        //התקבל קליינט
+
+        //יוצרים טרדים
+        pthread_t new_thread;
+        int rc = pthread_create(&new_thread, NULL, handler.handleClient, (void *)firstClient);
+        threads.push_back(new_thread);
+    }
+
+        //
     while (true) {
         cout << "Waiting for client connections..." << endl;
 
@@ -90,6 +114,15 @@ void Server::givePriority(int firstClient, int secondClient){
 
 bool Server::handleClient(int fromSocket, int toSocket) {
 
+    char request[20];
+    ssize_t n = read(fromSocket, &request, sizeof(request));
+
+
+
+
+
+
+    //
     int move[2];
     ssize_t n = read(fromSocket, &move, sizeof(move));
     if (n == -1) {

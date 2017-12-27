@@ -43,7 +43,7 @@ public:
     * Name: startTurn
     * Input: -
     * Output:
-    * Operation: Start the turn of the player
+    * Operation: Start the turn of the player. print valubale massages
     *************************************************************************/
     virtual void startTurn( const Value &sign, Coordinate c) const = 0;
     /************************************************************************
@@ -53,8 +53,6 @@ public:
     * Operation: Respone to a situation that the player cant move
     *************************************************************************/
     virtual void cantMove( Logic* l) const = 0;
-
-
 
     /************************************************************************
     * Name: MakeTurn

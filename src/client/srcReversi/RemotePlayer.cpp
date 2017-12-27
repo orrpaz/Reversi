@@ -14,9 +14,6 @@ using namespace std;
 RemotePlayer::RemotePlayer(const Value t, const Client *client, Printer* printer1,
                            int p) : Player(t), priority(p), client(client) , printer(printer1){
 }
-void RemotePlayer::setPriority(int a) {
-    priority = a;
-}
 
 Coordinate RemotePlayer::makeTurn(Logic* logic, Board* originalBoard,
                                     set<Coordinate> availableMoves) {

@@ -59,6 +59,7 @@ void ConsolePrinter::availableMoves(set<Coordinate> legalMoves) const {
     std::cout << '\n';
 
 }
+//a
 
 void ConsolePrinter::winner(const Value &p1, const Value &p2, const int &score1,
                             const int &score2) const{
