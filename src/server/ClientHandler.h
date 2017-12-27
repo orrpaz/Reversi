@@ -12,10 +12,14 @@
 
 class ClientHandler {
 private:
-    vector<Game> gamesList;
-    CommandManager commandManager;
+    vector<Game> *gamesList;
+    CommandManager* commandManager;
 public:
+    ClientHandler();
+    ~ClientHandler();
     void *handleClient(void * socket);
+    void closeThreads();
+
 };
 
 

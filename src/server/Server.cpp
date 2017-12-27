@@ -17,12 +17,14 @@
 using namespace std;
 #define MAX_CONNECTED_CLIENTS 2
 
-Server::Server(int port): port(port), serverSocket(0) {
+Server::Server(int port,ClientHandler &clientHandler_): port(port), serverSocket(0),clientHandler(clientHandler_) {
     cout << "Server" << endl;
 }
 
 void Server::start() {
     // Create a socket point
+    pthread_t closeThread;
+    pthread_create(&closeThread, NULL,startClose, (void*)this);  // לבדוק
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket == -1) {
         throw "Error opening socket";
@@ -44,7 +46,6 @@ void Server::start() {
     socklen_t clientAddressLen = sizeof((struct sockaddr *)&clientAddress);
 
     //
-    ClientHandler handler;
 
     cout << "Waiting for client connections..." << endl;
     vector<pthread_t> threads;
@@ -58,7 +59,7 @@ void Server::start() {
 
         //יוצרים טרדים
         pthread_t new_thread;
-        int rc = pthread_create(&new_thread, NULL, handler.handleClient, (void *)firstClient);
+        int rc = pthread_create(&new_thread, NULL, clientHandler.handleClient, (void *)firstClient);
         threads.push_back(new_thread);
     }
 
@@ -112,41 +113,57 @@ void Server::givePriority(int firstClient, int secondClient){
     }
 }
 
-bool Server::handleClient(int fromSocket, int toSocket) {
-
-    char request[20];
-    ssize_t n = read(fromSocket, &request, sizeof(request));
-
-
+//bool Server::handleClient(int fromSocket, int toSocket) {
+//
+//    char request[20];
+//    ssize_t n = read(fromSocket, &request, sizeof(request));
+//
+//
 
 
 
 
     //
-    int move[2];
-    ssize_t n = read(fromSocket, &move, sizeof(move));
-    if (n == -1) {
-        cout << "Error reading " << endl;
-        return false;
-    }
-    if (n == 0) {
-        cout << "Client disconnected" << endl;
-        return false;
-    }
-    cout << "Got move: " << move[0] + 1 << "," << move[1] + 1 << endl;
-    if ((move[0] == -1) && (move[1] == -1)) {
-        return false;
-    }
-
-
-    n = write(toSocket, &move, sizeof(move));
-    if (n == -1) {
-        cout << "Error writing to socket" << endl;
-        return false;
-    }
-    cout << "Sent move: " << move[0] + 1 << "," << move[1] + 1 << endl;
-}
+//    int move[2];
+//    ssize_t n = read(fromSocket, &move, sizeof(move));
+//    if (n == -1) {
+//        cout << "Error reading " << endl;
+//        return false;
+//    }
+//    if (n == 0) {
+//        cout << "Client disconnected" << endl;
+//        return false;
+//    }
+//    cout << "Got move: " << move[0] + 1 << "," << move[1] + 1 << endl;
+//    if ((move[0] == -1) && (move[1] == -1)) {
+//        return false;
+//    }
+//
+//
+//    n = write(toSocket, &move, sizeof(move));
+//    if (n == -1) {
+//        cout << "Error writing to socket" << endl;
+//        return false;
+//    }
+//    cout << "Sent move: " << move[0] + 1 << "," << move[1] + 1 << endl;
+//}
 
 void Server::stop() {
     close(serverSocket);
+}
+
+static void* Server::startClose(void *object) {
+
+    Server *ptr = (Server *) object;
+    ptr->close_();
+}
+
+void Server::close_() {
+    string str;
+    cin >> str;
+    if (str == "exit") {
+        // close threads.
+
+
+    }
 }

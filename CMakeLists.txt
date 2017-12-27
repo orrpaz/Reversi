@@ -48,7 +48,9 @@ set(SOURCE_FILES src/client/srcReversi/Board.cpp
         src/server/Server.h
         src/server/Command.h src/server/CommandManager.cpp src/server/CommandManager.h
         src/server/StartCommand.cpp src/server/StartCommand.h
-        src/server/Game.cpp src/server/Game.h src/server/ClientHandler.cpp src/server/ClientHandler.h)
+        src/server/Game.cpp src/server/Game.h
+        src/server/ClientHandler.cpp
+        src/server/ClientHandler.h src/server/ListGamesCommand.cpp src/server/ListGamesCommand.h)
 
 add_executable(Reversi ${SOURCE_FILES} src/client/srcReversi/main.cpp)
 add_executable(server ${SOURCE_FILES} src/server/main.cpp)

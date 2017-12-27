@@ -1,4 +1,5 @@
 #include "Server.h"
+#include "ClientHandler.h"
 #include <iostream>
 #include <stdlib.h>
 #include <fstream>
@@ -6,6 +7,7 @@
 
 using namespace std;
 int main() {
+    ClientHandler clientHandler;
     int port;
     ifstream inFile;
     inFile.open("setting_server.txt");
@@ -19,7 +21,7 @@ int main() {
         stringstream(line) >> port;
     }
     inFile.close();
-    Server server(port);
+    Server server(port, clientHandler);
     try {
         server.start();
     } catch (const char *msg) {

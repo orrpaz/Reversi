@@ -5,14 +5,16 @@
 #include <unistd.h>
 #include "StartCommand.h"
 
+StartCommand ::StartCommand(vector<Game> *gamesList) : Command() {
+    this->gamesList = gamesList;
+}
 
-void StartCommand::execute(vector<string> args, vector<Game> *games, int client) {
+void StartCommand::execute(vector<string> args, int client) {
         int msg;
         pthread_mutex_t startMutex;
-        if(!(*games).empty()){
+        if(!(*gamesList).empty()){
             vector<Game>::iterator it;
-            for (it = (*games).begin();it!=(*games).end(); it++) {
-     צריך להבין איך לפענח את הסטרינג
+            for (it = (*gamesList).begin();it!=(*gamesList).end(); it++) {
                 if ((*it).getName().compare(args[0]) == 0) {
                     msg = -1;
                     write(client, &msg, sizeof(msg));
@@ -21,8 +23,8 @@ void StartCommand::execute(vector<string> args, vector<Game> *games, int client)
             }
             msg = 1;
             pthread_mutex_lock(&startMutex);
-            (*games).push_back(Game(args[0], client));
+            (*gamesList).push_back(Game(args[0], client));
             pthread_mutex_unlock(&startMutex);
             write(client,&msg, sizeof(msg));
-//        }
+        }
     }

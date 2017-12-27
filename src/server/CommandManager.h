@@ -11,7 +11,7 @@
 
 class CommandManager {
 public:
-    CommandManager();
+    CommandManager(vector<Game>*gamesList);
     ~CommandManager();
     void executeCommand(string command,
                         vector<string> args);

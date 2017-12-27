@@ -6,19 +6,30 @@
 #define REVERSI_SERVER_H
 
 
+#include "ClientHandler.h"
+
 class Server {
 private:
     int port;
     int serverSocket;
+    ClientHandler &clientHandler;
+
     bool handleClient(int firstClient, int secondClient);
+
     void givePriority(int firstClient, int secondClient);
 
 public:
-    Server(int port);
-    Server(char *file);
-    void start();
-    void stop();
-};
+    Server(int port,ClientHandler &clientHandler);
 
+    Server(char *file);
+
+    void start();
+
+    void stop();
+
+    static void *startClose(void *object);
+
+    void close_();
+};
 
 #endif //REVERSI_SERVER_H
