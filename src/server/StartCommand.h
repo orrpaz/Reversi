@@ -15,7 +15,7 @@ public:
     virtual ~StartCommand();
 
 private:
-    vector<GameInfo> *gamesList;
+    vector<GameInfo>* gamesList;
 };
 
 

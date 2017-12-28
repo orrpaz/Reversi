@@ -14,11 +14,13 @@ class ClientHandler {
 private:
     vector<GameInfo> *gamesList;
     CommandManager* commandManager;
+    vector<pthread_t> threads;
 public:
     ClientHandler();
     ~ClientHandler();
     void *handleClient(void * socket);
     void closeThreads();
+    void acceptClient(int client);
 
 };
 

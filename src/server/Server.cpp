@@ -53,7 +53,6 @@ void Server::start() {
     //
 
     cout << "Waiting for client connections..." << endl;
-    vector<pthread_t> threads;
     while (true) {
         // Accept a new client connection
         int firstClient = accept(serverSocket, (struct sockaddr *) &clientAddress, &clientAddressLen);
@@ -63,9 +62,8 @@ void Server::start() {
         //התקבל קליינט
 
         //יוצרים טרדים
-        pthread_t new_thread;
-        int rc = pthread_create(&new_thread, NULL, clientHandler.handleClient, (void *)firstClient);
-        threads.push_back(new_thread);
+        clientHandler.acceptClient(firstClient);
+
     }
 
         //

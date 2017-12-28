@@ -5,13 +5,23 @@
 #include <unistd.h>
 #include <iterator>
 #include <sstream>
+#include <cstdlib>
 #include "ClientHandler.h"
 #define REQ 30
 using namespace std;
 
 ClientHandler::ClientHandler() {
-    this->gamesList = new vector<GameInfo>();
-    this->commandManager = new CommandManager(this->gamesList);
+    gamesList = new vector<GameInfo>();
+    commandManager = new CommandManager(gamesList);
+}
+void ClientHandler::acceptClient(int client) {
+    pthread_t new_thread;
+    int rc = pthread_create(&new_thread, NULL, handleClient, (void *)client);
+    if (rc) {
+        cout << "Error: unable to create thread, " << rc << endl;
+        exit(-1);
+    }
+    threads.push_back(new_thread);
 }
 
 void* ClientHandler::handleClient(void* socket) {
@@ -44,12 +54,7 @@ void* ClientHandler::handleClient(void* socket) {
     vstrings.insert(vstrings.begin(), ss.str());
 
 
-
+    //Run the command (Start, listGames, join, close)
     commandManager->executeCommand(command, vstrings);
-
-
-
-
-
 
 }

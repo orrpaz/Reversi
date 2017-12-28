@@ -12,7 +12,7 @@ class Server {
 private:
     int port;
     int serverSocket;
-    ClientHandler &clientHandler;
+    ClientHandler clientHandler;
 
     bool handleClient(int firstClient, int secondClient);
 
