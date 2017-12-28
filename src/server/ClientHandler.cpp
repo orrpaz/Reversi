@@ -29,8 +29,9 @@ void* ClientHandler::handleClient(void* socket) {
     char request[REQ];
 
     // נכון?
-    int clientSocket=(int)socket;
-
+    //long clientSocket=(long)socket;
+    int clientSocket=(long)socket;
+    //ssize_t n = read((int)clientSocket, &request, sizeof(request));
     ssize_t n = read(clientSocket, &request, sizeof(request));
     if (n == -1) {
         throw "Error reading from socket";

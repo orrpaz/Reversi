@@ -8,13 +8,13 @@
 
 #include "Command.h"
 
-class ListGamesCommand : public Command {
+class GamesListCommand : public Command {
 public:
     /**
      * constructor.
      * @param gamesList - vector of the game.
      */
-    ListGamesCommand(vector<GameInfo> *gamesList);
+    GamesListCommand(vector<GameInfo> *gamesList);
     /**
      *
      * @param args
@@ -23,7 +23,7 @@ public:
     /**
      * destrucror
      */
-        ~ListGamesCommand() {};
+        ~GamesListCommand() {};
 private:
     vector<GameInfo> *gamesList;
 

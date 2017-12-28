@@ -20,6 +20,8 @@ public:
     virtual void winner(const Value &p1, const Value &p2, const int &score1,
                         const int &score2) const;
     virtual void playingMove(Value sign, Coordinate c);
+    virtual bool getInput(int &a);
+    virtual void getInput(string &str);
 };
 
 

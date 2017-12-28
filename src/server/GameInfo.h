@@ -17,8 +17,8 @@ public:
 
 
 private:
-    string gameName_;
-    int clientSocket_;
+    string gameName;
+    int clientSocket;
 };
 
 #endif //REVERSI_GAME_H

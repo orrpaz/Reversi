@@ -4,7 +4,7 @@
 
 #include "CommandManager.h"
 #include "StartCommand.h"
-#include "ListGamesCommand.h"
+#include "GamesListCommand.h"
 
 CommandManager::CommandManager(vector<GameInfo> *gameList) {
     // here we crate all the options of command
@@ -12,7 +12,7 @@ CommandManager::CommandManager(vector<GameInfo> *gameList) {
 
     commandsMap["close"] = new CloseCommand();
     commandsMap["join"] = new JoinCommand(gameList);
-    commandsMap["list_games"] = new ListGamesCommand(gameList);
+    commandsMap["list_games"] = new GamesListCommand(gameList);
 //    commandsMap["play"] = new PlayCommand();
     commandsMap["start"] = new StartCommand(gameList);
 

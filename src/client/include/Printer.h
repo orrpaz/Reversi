@@ -31,6 +31,9 @@ public:
     //Prints the winner
     virtual void winner(const Value &p1, const Value &p2, const int &score1,
                         const int &score2) const = 0;
+    //Get Int from user. If it's not a number - return false
+    virtual bool getInput(int &a) = 0;
+    virtual void getInput(string &str) = 0;
 };
 
 

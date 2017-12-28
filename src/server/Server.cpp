@@ -155,7 +155,7 @@ void Server::stop() {
     close(serverSocket);
 }
 
-static void* Server::startClose(void *object) {
+void* Server::startClose(void *object) {
 
     Server *ptr = (Server *) object;
     ptr->close_();

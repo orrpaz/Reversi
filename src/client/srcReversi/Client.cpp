@@ -56,8 +56,48 @@ void Client::connectToServer() {
     if (connect(clientSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) == -1) {
         throw "Error connecting to server";
     }
-    cout << "Connected to server" << endl << "Waiting for the other players..." << endl;
+//    cout << "Connected to server" << endl << "Waiting for the other players..." << endl;
 }
+
+int Client::getCommand(Printer* printer) {
+    bool flag;
+    string toSend, toGet;
+    do {
+        flag = false;
+        printer->massage("Please enter one of the following commands: start <name>, "
+                                 "close <name>, join <name>, list_games\n");
+        printer->getInput(toSend);
+
+        //Send Command to server
+        ssize_t n = write(clientSocket,&toSend ,sizeof (toSend));
+        if (n == -1) {
+            throw "Error writing move to socket";
+        }
+
+        //Get Server response
+        n = read(clientSocket,&toGet ,sizeof (toGet));
+        if (n == -1) {
+            throw "Error reading move from socket";
+        }
+
+        if(strcmp(toSend, "list_games") == 0) {
+            flag = true;
+            //Prints the list of the games
+            printer->massage(toGet);
+        }
+    } while (flag); //Repeat if it was a "list_games" request
+
+    //For 'join' command, need to get the priority
+    if(strcmp(toSend, "join") == 0) {
+        flag = true;
+        //Prints the list of the games
+        printer->massage(toGet);
+        int priority = getPriorityValue();
+        return priority;
+    }
+    return 0;
+}
+
 int Client::getClientSocket() const{
     return clientSocket;
 }

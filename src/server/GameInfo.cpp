@@ -4,13 +4,13 @@
 
 #include "GameInfo.h"
 
-GameInfo::GameInfo(string gameName, int clientSocket) {
-    gameName_= gameName;
-    clientSocket_ = clientSocket;
+GameInfo::GameInfo(string name, int socket) {
+    gameName= name;
+    clientSocket = socket;
 }
 string& GameInfo::getName() const {
-    return gameName_;
+    return gameName;
 }
 int GameInfo::getClientSocket() const {
-    return clientSocket_;
+    return clientSocket;
 }

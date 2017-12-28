@@ -85,3 +85,16 @@ void ConsolePrinter::playingMove(Value sign, Coordinate c) {
         }
     }
 }
+
+bool ConsolePrinter::getInput(int &a) {
+    cin >> a;
+    if (!cin) {
+        cin.clear(); // clears error flags
+        cin.ignore(9999, '\n');
+        return false;
+    }
+    return true;
+}
+void ConsolePrinter::getInput(string &str) {
+    cin >> str;
+}

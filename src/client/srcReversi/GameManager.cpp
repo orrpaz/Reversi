@@ -174,6 +174,8 @@ int GameManager::clientCase() {
     client = new Client("setting_client.txt");
     try {
         client->connectToServer();
+        printer->massage("Connected to server");
+
 
     } catch (const char *msg) {
         cout << "Failed to connect to server. Reason:   " << msg << endl;
@@ -182,7 +184,9 @@ int GameManager::clientCase() {
 
     //
     ///Enter Command
+    client->getCommand(printer);
     //
+
 
     int priority = client->getPriorityValue();
     cout << "You are player number: " << priority << endl;

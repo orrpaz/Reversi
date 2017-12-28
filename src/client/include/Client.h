@@ -4,6 +4,9 @@
 
 #ifndef REVERSI_CLIENT_H
 #define REVERSI_CLIENT_H
+
+#include "Printer.h"
+
 #define SIZEIP 16
 
 class Client {
@@ -14,6 +17,7 @@ public:
     void closeClient();
     int getClientSocket() const;
     int getPriorityValue();
+    int getCommand(Printer* p);
     const char * getServerIp(){
         return serverIP;
     }
