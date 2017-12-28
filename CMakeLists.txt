@@ -48,7 +48,7 @@ set(SOURCE_FILES src/client/srcReversi/Board.cpp
         src/server/Server.h
         src/server/Command.h src/server/CommandManager.cpp src/server/CommandManager.h
         src/server/StartCommand.cpp src/server/StartCommand.h
-        src/server/Game.cpp src/server/Game.h
+        src/server/GameInfo.cpp src/server/GameInfo.h
         src/server/ClientHandler.cpp
         src/server/ClientHandler.h src/server/ListGamesCommand.cpp src/server/ListGamesCommand.h)
 

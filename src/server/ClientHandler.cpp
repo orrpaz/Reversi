@@ -10,7 +10,7 @@
 using namespace std;
 
 ClientHandler::ClientHandler() {
-    this->gamesList = new vector<Game>();
+    this->gamesList = new vector<GameInfo>();
     this->commandManager = new CommandManager(this->gamesList);
 }
 
@@ -19,26 +19,33 @@ void* ClientHandler::handleClient(void* socket) {
     char request[REQ];
 
     // נכון?
-    int socket_=(int)socket;
+    int clientSocket=(int)socket;
 
-    ssize_t n = read(socket_, &request, sizeof(request));
+    ssize_t n = read(clientSocket, &request, sizeof(request));
     if (n == -1) {
         throw "Error reading from socket";
     }
+    //Convert char into string
     string strBuff(request);
     istringstream buf(strBuff);
+    //split by ' '
     istream_iterator<string> begin(buf);
     istream_iterator<string> end;
     vector<string> vstrings(begin, end);
-    // copy the first string to command
+    // get the first string to command
     string command = vstrings.at(0);
     // delete the first string in vector.
     vstrings.erase(vstrings.begin());
-    //
-    // קריאה של הארגומנטים
-    // צריך לשלוח גם את הסוקט?
 
-    this->commandManager->executeCommand(command, vstrings);
+    //Convert int into string
+    std::ostringstream ss;
+    ss << clientSocket;
+    //insert the client_socket as the first param in the vector
+    vstrings.insert(vstrings.begin(), ss.str());
+
+
+
+    commandManager->executeCommand(command, vstrings);
 
 
 

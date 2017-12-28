@@ -6,7 +6,7 @@
 #include "StartCommand.h"
 #include "ListGamesCommand.h"
 
-CommandManager::CommandManager(vector<Game> *gameList) {
+CommandManager::CommandManager(vector<GameInfo> *gameList) {
     // here we crate all the options of command
     // ctrate StartCommand,CloseCommand,Join,listGame
 

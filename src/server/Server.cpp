@@ -13,6 +13,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <vector>
+#include <cstdlib>
 
 using namespace std;
 #define MAX_CONNECTED_CLIENTS 2
@@ -24,7 +25,11 @@ Server::Server(int port,ClientHandler &clientHandler_): port(port), serverSocket
 void Server::start() {
     // Create a socket point
     pthread_t closeThread;
-    pthread_create(&closeThread, NULL,startClose, (void*)this);  // לבדוק
+    int rc =pthread_create(&closeThread, NULL,startClose, (void*)this);  // לבדוק
+    if (rc) {
+        cout << "Error: unable to create thread, " << rc << endl;
+        exit(-1);
+    }
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket == -1) {
         throw "Error opening socket";
@@ -159,11 +164,13 @@ static void* Server::startClose(void *object) {
 }
 
 void Server::close_() {
+    bool flag = true;
     string str;
-    cin >> str;
-    if (str == "exit") {
-        // close threads.
-
-
+    while(flag) {
+        cin >> str;
+        if (str == "exit") {
+            flag = false;
+        }
     }
+    // close threads.
 }

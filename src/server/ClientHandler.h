@@ -7,12 +7,12 @@
 
 
 #include <vector>
-#include "Game.h"
+#include "GameInfo.h"
 #include "CommandManager.h"
 
 class ClientHandler {
 private:
-    vector<Game> *gamesList;
+    vector<GameInfo> *gamesList;
     CommandManager* commandManager;
 public:
     ClientHandler();

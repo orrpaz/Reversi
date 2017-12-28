@@ -14,7 +14,7 @@ public:
      * constructor.
      * @param gamesList - vector of the game.
      */
-    ListGamesCommand(vector<Game> *gamesList);
+    ListGamesCommand(vector<GameInfo> *gamesList);
     /**
      *
      * @param args
@@ -25,7 +25,7 @@ public:
      */
         ~ListGamesCommand() {};
 private:
-    vector<Game> *gamesList;
+    vector<GameInfo> *gamesList;
 
 
 };

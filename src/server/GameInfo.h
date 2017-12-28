@@ -9,9 +9,9 @@
 #include <iostream>
 using namespace std;
 
-class Game {
+class GameInfo {
 public:
-    Game(string gameName, int clientSocket);
+    GameInfo(string gameName, int clientSocket);
     string& getName() const;
     int getClientSocket() const;
 

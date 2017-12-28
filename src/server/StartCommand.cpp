@@ -3,28 +3,31 @@
 //
 
 #include <unistd.h>
+#include <cstdlib>
 #include "StartCommand.h"
 
-StartCommand ::StartCommand(vector<Game> *gamesList) : Command() {
+StartCommand ::StartCommand(vector<GameInfo> *gamesList) : Command() {
     this->gamesList = gamesList;
 }
 
-void StartCommand::execute(vector<string> args, int client) {
+void StartCommand::execute(vector<string> args) {
+        string str = args[0];
+        int client = atoi(str.c_str());
         int msg;
-        pthread_mutex_t startMutex;
         if(!(*gamesList).empty()){
-            vector<Game>::iterator it;
+            vector<GameInfo>::iterator it;
             for (it = (*gamesList).begin();it!=(*gamesList).end(); it++) {
-                if ((*it).getName().compare(args[0]) == 0) {
+                //Compare the input name to the names in the game list
+                //Return -1 if already in the list
+                if ((*it).getName().compare(args[1]) == 0) {
                     msg = -1;
                     write(client, &msg, sizeof(msg));
-
                 }
             }
             msg = 1;
-            pthread_mutex_lock(&startMutex);
-            (*gamesList).push_back(Game(args[0], client));
-            pthread_mutex_unlock(&startMutex);
+            pthread_mutex_lock(&mutex);
+            (*gamesList).push_back(GameInfo(args[1], client));
+            pthread_mutex_unlock(&mutex);
             write(client,&msg, sizeof(msg));
         }
     }

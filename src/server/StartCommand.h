@@ -10,12 +10,12 @@
 
 class StartCommand : public Command {
 public:
-    StartCommand (vector<Game> *gamesList);
-    virtual void execute(vector<string> args, int client);
+    StartCommand (vector<GameInfo> *gamesList);
+    virtual void execute(vector<string> args);
     virtual ~StartCommand();
 
 private:
-    vector<Game> *gamesList;
+    vector<GameInfo> *gamesList;
 };
 
 
