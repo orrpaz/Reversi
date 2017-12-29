@@ -3,7 +3,7 @@
 //
 
 #include <cstdlib>
-#include <zconf.h>
+#include <unistd.h>
 #include "JoinCommand.h"
 JoinCommand ::JoinCommand(vector<GameInfo>* games) : Command() {
     gamesList = games;
@@ -16,7 +16,7 @@ void JoinCommand::execute(vector<string> args) {
     string str = args[0];
     int secondClient = atoi(str.c_str());
     string nameOfGame = args[1];
-    char msg[this->msgLength];
+
 
 //    //If the games's list is empty
 //    pthread_mutex_lock(&mutex);
@@ -40,7 +40,7 @@ void JoinCommand::execute(vector<string> args) {
 
             found = true;
             //1 for signing that it's OK
-            msg = "1Connecting to game...\n";
+            char msg[this->msgLength] = "1Connecting to game...\n";
             int n = write(secondClient , &msg, sizeof(msg));
             if (n == -1) {
                 throw "Error on writing to socket";
@@ -52,7 +52,7 @@ void JoinCommand::execute(vector<string> args) {
 
     //if not found
     if (!found) {
-        msg = "-1There is no game with this name!\n";
+        char msg[this->msgLength] = "-1There is no game with this name!\n";
         int n = write(secondClient , &msg, sizeof(msg));
         if (n == -1) {
             throw "Error on writing to socket";

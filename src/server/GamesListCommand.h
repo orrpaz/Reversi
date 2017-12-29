@@ -23,7 +23,7 @@ public:
     /**
      * destrucror
      */
-        ~GamesListCommand() {};
+    //~GamesListCommand() {};
 private:
     vector<GameInfo> *gamesList;
 

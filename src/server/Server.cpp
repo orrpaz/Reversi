@@ -18,7 +18,7 @@
 using namespace std;
 #define MAX_CONNECTED_CLIENTS 2
 
-Server::Server(int port,ClientHandler &clientHandler_): port(port), serverSocket(0),clientHandler(clientHandler_) {
+Server::Server(int port,ClientHandler &clientHandler): port(port), serverSocket(0),clientHandler(clientHandler) {
     cout << "Server" << endl;
 }
 
@@ -66,7 +66,7 @@ void Server::start() {
 
     }
 
-        //
+    //
     while (true) {
         cout << "Waiting for client connections..." << endl;
 
@@ -126,7 +126,7 @@ void Server::givePriority(int firstClient, int secondClient){
 
 
 
-    //
+//
 //    int move[2];
 //    ssize_t n = read(fromSocket, &move, sizeof(move));
 //    if (n == -1) {

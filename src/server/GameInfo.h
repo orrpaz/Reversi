@@ -12,7 +12,7 @@ using namespace std;
 class GameInfo {
 public:
     GameInfo(string gameName, int clientSocket);
-    string& getName() const;
+    string getName() const;
     int getClientSocket() const;
 
 

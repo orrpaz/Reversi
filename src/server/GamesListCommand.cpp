@@ -6,8 +6,8 @@
 #include <cstdlib>
 #include <unistd.h>
 #include "GamesListCommand.h"
-GamesListCommand ::GamesListCommand(vector<GameInfo> *gamesList) {
-    this->gamesList = gamesList;
+GamesListCommand ::GamesListCommand(vector<GameInfo> *games) {
+    gamesList = games;
 }
 void GamesListCommand :: execute(vector<string> args) {
     //args contains: args[0]-client, args[1]- nothing

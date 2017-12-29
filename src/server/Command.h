@@ -19,7 +19,7 @@ public:
 
 protected:
     pthread_mutex_t mutex;
-    const int msgLength = MSG_LENGTH;
+    static const int msgLength = MSG_LENGTH;
 };
 
 #endif //REVERSI_COMMAND_H

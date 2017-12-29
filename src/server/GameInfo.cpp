@@ -8,7 +8,7 @@ GameInfo::GameInfo(string name, int socket) {
     gameName= name;
     clientSocket = socket;
 }
-string& GameInfo::getName() const {
+string GameInfo::getName() const {
     return gameName;
 }
 int GameInfo::getClientSocket() const {

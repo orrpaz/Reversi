@@ -89,23 +89,24 @@ int Client::getCommand(Printer* printer) {
         while(stream >> num) {
             getline(stream, msg);
         }
-
-        if(strcmp(toSend, "list_games") == 0) {
+        //If the request wasn't good or it was list, the loop will repeat
+        if(num == -1) {
             flag = true;
-            //Prints the list of the games
-            printer->massage(serverAnswer);
         }
-    } while (flag); //Repeat if it was a "list_games" request
+        //For 'join' command, print "connect successfuly"
+        //For 'start' command, print "waiting for other player..."
+        //For 'list_games' command, print the list
+        printer->massage(serverAnswer);
+
+    } while (flag);
 
     //For 'join' command, need to get the priority
-    if(strcmp(toSend, "join") == 0) {
-        flag = true;
-        //Prints the list of the games
-        printer->massage(serverAnswer);
-        int priority = getPriorityValue();
-        return priority;
-    }
-    return 0;
+    //For 'start' command, need to get the priority
+    //Prints the list of the games
+    printer->massage(serverAnswer);
+    int priority = getPriorityValue();
+    return priority;
+
 }
 
 int Client::getClientSocket() const{
@@ -113,6 +114,7 @@ int Client::getClientSocket() const{
 }
 
 int Client::getPriorityValue() {
+    //if priority is 0, it means that it close the game
     int priority;
     ssize_t n = read(clientSocket, &priority, sizeof(priority));
     return priority;

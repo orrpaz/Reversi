@@ -10,8 +10,9 @@ int main() {
     ClientHandler clientHandler;
     int port;
     ifstream inFile;
-    inFile.open("setting_server.txt");
+    inFile.open("../exe/setting_server.txt");
     if(!inFile.is_open()) {
+        cout <<"Here";
         throw "Can't open file";
     }
     string line;
