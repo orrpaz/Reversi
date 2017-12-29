@@ -13,6 +13,7 @@ public:
     JoinCommand (vector<GameInfo> *gamesList);
     virtual void execute(vector<string> args);
     virtual ~JoinCommand();
+    bool doMove(int fromSocket, int toSocket);
 
 private:
     vector<GameInfo>* gamesList;

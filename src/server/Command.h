@@ -2,6 +2,8 @@
 // Created by or on 22/12/17.
 //
 
+#define MSG_LENGTH 200
+
 #ifndef REVERSI_COMMAND_H
 #define REVERSI_COMMAND_H
 
@@ -17,6 +19,7 @@ public:
 
 protected:
     pthread_mutex_t mutex;
+    const int msgLength = MSG_LENGTH;
 };
 
 #endif //REVERSI_COMMAND_H

@@ -14,8 +14,8 @@ void StartCommand::execute(vector<string> args) {
     //args[0] - client socket, args[1] - room name
     string str = args[0];
     int client = atoi(str.c_str());
-    int msg;
-
+    // '-1' for siging that the name is already taken
+    char msg[this->msgLength] = "-1There is already a game with this name!";
     if(!(*gamesList).empty()) {
         vector<GameInfo>::iterator it;
 
@@ -25,7 +25,6 @@ void StartCommand::execute(vector<string> args) {
             //Compare the input name to the names in the game list
             //Return -1 if already in the list
             if ((*it).getName().compare(args[1]) == 0) {
-                msg = -1;
                 int n = write(client, &msg, sizeof(msg));
                 if (n == -1) {
                     throw "Error on writing to socket";
@@ -37,12 +36,14 @@ void StartCommand::execute(vector<string> args) {
         pthread_mutex_unlock(&mutex);
     }
     //The returned massage
-    msg = 1;
 
     //Push the game to
     pthread_mutex_lock(&mutex);
     (*gamesList).push_back(GameInfo(args[1], client));
     pthread_mutex_unlock(&mutex);
+
+    // '1' for siging thats ok
+    msg = "1Waiting for the other player...\n";
 
     //Write result to client
     int n = write(client,&msg, sizeof(msg));

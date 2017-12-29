@@ -12,6 +12,7 @@
 #include <cstdlib>
 #include <unistd.h>
 #include <cstring>
+#include <sstream>
 
 using namespace std;
 
@@ -61,7 +62,7 @@ void Client::connectToServer() {
 
 int Client::getCommand(Printer* printer) {
     bool flag;
-    string toSend, toGet;
+    string toSend, serverAnswer;
     do {
         flag = false;
         printer->massage("Please enter one of the following commands: start <name>, "
@@ -75,15 +76,24 @@ int Client::getCommand(Printer* printer) {
         }
 
         //Get Server response
-        n = read(clientSocket,&toGet ,sizeof (toGet));
+        n = read(clientSocket,&serverAnswer ,sizeof (serverAnswer));
         if (n == -1) {
             throw "Error reading move from socket";
+        }
+
+        //get the
+        string msg;
+        stringstream stream(serverAnswer);
+        int num;
+        //Split the info-num from server and the message
+        while(stream >> num) {
+            getline(stream, msg);
         }
 
         if(strcmp(toSend, "list_games") == 0) {
             flag = true;
             //Prints the list of the games
-            printer->massage(toGet);
+            printer->massage(serverAnswer);
         }
     } while (flag); //Repeat if it was a "list_games" request
 
@@ -91,7 +101,7 @@ int Client::getCommand(Printer* printer) {
     if(strcmp(toSend, "join") == 0) {
         flag = true;
         //Prints the list of the games
-        printer->massage(toGet);
+        printer->massage(serverAnswer);
         int priority = getPriorityValue();
         return priority;
     }

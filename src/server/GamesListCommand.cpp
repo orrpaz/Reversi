@@ -24,7 +24,7 @@ void GamesListCommand :: execute(vector<string> args) {
     pthread_mutex_unlock(&mutex);
 
     //Make it as one long string, to send it as string
-    string namesInString;
+    string namesInString = "-1"; //-1 to info the client it should send another command
     list<string>::iterator listIT;
     for (listIT = gamesNames.begin(); listIT  != gamesNames.end();) {
         namesInString.append(*(listIT));
