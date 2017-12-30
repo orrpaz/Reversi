@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+
 #include "../include/Board.h"
 #include "../include/ConsolePrinter.h"
 
@@ -96,5 +97,17 @@ bool ConsolePrinter::getInput(int &a) {
     return true;
 }
 void ConsolePrinter::getInput(string &str) {
-    cin >> str;
+//    cin >> str;
+    getline(cin, str);
+}
+
+string ConsolePrinter::scanString(int i) {
+    string str;
+    if (i == 0) {
+        cin.clear(); // clears error flags
+        cin.ignore(9999, '\n');
+    }
+    getline(cin, str);
+    return str;
+
 }

@@ -66,43 +66,45 @@ void Client::connectToServer() {
 int Client::getCommand(Printer* printer) {
     bool flag;
     string toSend;
-    char* serverAnswer;
+    char serverAnswer[REQ];
+    char buffer[REQ];
 
     do {
         flag = false;
         printer->massage("Please enter one of the following commands: start <name>, "
                                  "close <name>, join <name>, list_games\n");
-        printer->getInput(toSend);
-        const char* buffer = toSend.c_str();
+        toSend = printer->scanString(0);
+//        printer->getInput(toSend);
+        strcpy(buffer, toSend.c_str());
 
         //Send Command to server
-        ssize_t n = write(clientSocket,buffer ,sizeof (toSend));
+        ssize_t n = write(clientSocket,buffer ,sizeof(buffer));
         if (n == -1) {
             throw "Error writing move to socket";
         }
 
         //Get Server response
-        n = read(clientSocket,&serverAnswer ,sizeof (serverAnswer));
+        n = read(clientSocket,serverAnswer ,sizeof(serverAnswer));
         if (n == -1) {
             throw "Error reading move from socket";
         }
 
         //get the
-        string msg;
-        stringstream stream(serverAnswer);
-        int num;
-        //Split the info-num from server and the message
-        while(stream >> num) {
-            getline(stream, msg);
-        }
-        //If the request wasn't good or it was list, the loop will repeat
-        if(num == -1) {
-            flag = true;
-        }
-        //For 'join' command, print "connect successfuly"
-        //For 'start' command, print "waiting for other player..."
-        //For 'list_games' command, print the list
-        printer->massage(serverAnswer);
+//        string msg;
+//        stringstream stream(serverAnswer);
+//        int num;
+//        //Split the info-num from server and the message
+//        while(stream >> num) {
+//            getline(stream, msg);
+//        }
+//        //If the request wasn't good or it was list, the loop will repeat
+//        if(num == -1) {
+//            flag = true;
+//        }
+//        //For 'join' command, print "connect successfuly"
+//        //For 'start' command, print "waiting for other player..."
+//        //For 'list_games' command, print the list
+//        printer->massage(serverAnswer);
 
     } while (flag);
 

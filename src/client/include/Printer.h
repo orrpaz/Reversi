@@ -34,6 +34,7 @@ public:
     //Get Int from user. If it's not a number - return false
     virtual bool getInput(int &a) = 0;
     virtual void getInput(string &str) = 0;
+    virtual string scanString(int i) = 0;
 };
 
 

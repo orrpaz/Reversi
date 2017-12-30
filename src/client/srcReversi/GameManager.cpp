@@ -183,7 +183,7 @@ int GameManager::clientCase() {
     }
 
     //
-    ///Enter Command
+    // Enter Command
     client->getCommand(printer);
     //
 
