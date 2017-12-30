@@ -13,6 +13,9 @@
 #include <unistd.h>
 #include <cstring>
 #include <sstream>
+#define REQ 200
+
+
 
 using namespace std;
 
@@ -62,15 +65,18 @@ void Client::connectToServer() {
 
 int Client::getCommand(Printer* printer) {
     bool flag;
-    string toSend, serverAnswer;
+    string toSend;
+    char* serverAnswer;
+
     do {
         flag = false;
         printer->massage("Please enter one of the following commands: start <name>, "
                                  "close <name>, join <name>, list_games\n");
         printer->getInput(toSend);
+        const char* buffer = toSend.c_str();
 
         //Send Command to server
-        ssize_t n = write(clientSocket,&toSend ,sizeof (toSend));
+        ssize_t n = write(clientSocket,buffer ,sizeof (toSend));
         if (n == -1) {
             throw "Error writing move to socket";
         }

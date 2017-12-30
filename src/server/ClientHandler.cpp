@@ -18,10 +18,14 @@ ClientHandler::ClientHandler() {
 ClientHandler::~ClientHandler() {
     delete gamesList;
     delete commandManager;
+
 }
 void ClientHandler::acceptClient(int client) {
     pthread_t new_thread;
-    int rc = pthread_create(&new_thread, NULL, handleClient, (void *)client);
+    DataOfClient *dataOfClient = new DataOfClient();
+    dataOfClient->clientHandler = this;
+    dataOfClient->clientSocket = client;
+    int rc = pthread_create(&new_thread, NULL, handleClient, (void *)dataOfClient);
     if (rc) {
         cout << "Error: unable to create thread, " << rc << endl;
         exit(-1);
@@ -29,9 +33,11 @@ void ClientHandler::acceptClient(int client) {
     threads.push_back(new_thread);
 }
 
-void* ClientHandler::handleClient(void* socket) {
-    ClientHandler cH;
-    cH.analayzeCommand((long)socket);
+ void* ClientHandler::handleClient(void* data) {
+    DataOfClient *dataOfClient = (DataOfClient*)data;
+    ClientHandler *ptr = dataOfClient->clientHandler;
+    ptr->analayzeCommand(dataOfClient->clientSocket);
+
 
 //    char request[REQ];
 //
@@ -66,14 +72,14 @@ void* ClientHandler::handleClient(void* socket) {
 //    commandManager->executeCommand(command, vstrings);
 
 }
-void ClientHandler::analayzeCommand(long client) {
+void ClientHandler::analayzeCommand(int client) {
     char request[REQ];
 
     // נכון?
     //long clientSocket=(long)socket;
-    int clientSocket=client;
+    int clientSocket = client;
     //ssize_t n = read((int)clientSocket, &request, sizeof(request));
-    ssize_t n = read(clientSocket, &request, sizeof(request));
+    ssize_t n = read(clientSocket, request, sizeof(request));
     if (n == -1) {
         throw "Error reading from socket";
     }

@@ -25,7 +25,7 @@ void StartCommand::execute(vector<string> args) {
             //Compare the input name to the names in the game list
             //Return -1 if already in the list
             if ((*it).getName().compare(args[1]) == 0) {
-                int n = write(client, &exists, sizeof(exists));
+                ssize_t n = write(client, &exists, sizeof(exists));
                 if (n == -1) {
                     throw "Error on writing to socket";
                 }
@@ -46,7 +46,7 @@ void StartCommand::execute(vector<string> args) {
     char msg[this->msgLength] = "1Waiting for the other player...\n";
 
     //Write result to client
-    int n = write(client,&msg, sizeof(msg));
+    ssize_t n = write(client,&msg, sizeof(msg));
     if (n == -1) {
         throw "Error on writing to socket";
     }

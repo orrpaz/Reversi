@@ -171,7 +171,7 @@ void GameManager::endGame() {
 }
 
 int GameManager::clientCase() {
-    client = new Client("setting_client.txt");
+    client = new Client("../exe/setting_client.txt");
     try {
         client->connectToServer();
         printer->massage("Connected to server");

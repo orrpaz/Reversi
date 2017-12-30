@@ -11,6 +11,12 @@
 #include "CommandManager.h"
 
 class ClientHandler {
+
+    struct DataOfClient{
+        ClientHandler *clientHandler;
+        int clientSocket;
+    };
+
 private:
     vector<GameInfo> *gamesList;
     CommandManager* commandManager;
@@ -18,12 +24,15 @@ private:
 public:
     ClientHandler();
     ~ClientHandler();
-    static void *handleClient(void * socket);
+    static void* handleClient(void *data);
     //void closeThreads();
     void acceptClient(int client);
-    void analayzeCommand(long client);
+    void analayzeCommand(int client);
 
 };
+
+
+
 
 
 #endif //REVERSI_CLIENTHANDLER_H

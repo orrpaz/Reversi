@@ -48,7 +48,9 @@ void Server::start() {
     listen(serverSocket, MAX_CONNECTED_CLIENTS);
     // Define the client socket's structures
     struct sockaddr_in clientAddress;
-    socklen_t clientAddressLen = sizeof((struct sockaddr *)&clientAddress);
+//    socklen_t clientAddressLen = sizeof((struct sockaddr *)&clientAddress);
+    socklen_t clientAddressLen = sizeof(struct sockaddr);
+
 
     //
 
@@ -56,7 +58,7 @@ void Server::start() {
     while (true) {
         // Accept a new client connection
         int firstClient = accept(serverSocket, (struct sockaddr *) &clientAddress, &clientAddressLen);
-        cout << "Client 1 connected" << endl;
+        cout << "Client connected" << endl;
         if (firstClient == -1)
             throw "Error on accept Client 1";
         //התקבל קליינט

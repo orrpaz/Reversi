@@ -22,6 +22,7 @@ public:
     virtual void playingMove(Value sign, Coordinate c);
     virtual bool getInput(int &a);
     virtual void getInput(string &str);
+//    virtual void getInput(char[] str);
 };
 
 
