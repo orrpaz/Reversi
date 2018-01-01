@@ -8,6 +8,7 @@
 #include <gmock/gmock.h>
 #include "../client/include/ComputerPlayer.h"
 #include "../client/include/NormalLogic.h"
+#include "../client/include/ConsolePrinter.h"
 
 using namespace std;
 
@@ -15,13 +16,14 @@ using namespace std;
 class ComputerTest: public testing::Test {
 public:
 
-    ComputerTest(): player(ComputerPlayer(White)){
+    ComputerTest(): player(ComputerPlayer(White, p)){
     }
 
     virtual void SetUp() {
         cout << "Setting up" << endl;
         board = new Board(8, Black, White);
         logic = new NormalLogic(board);
+        p = new ConsolePrinter();
     }
     virtual void TearDown() {
         cout << "Tearing down" << endl;
@@ -33,6 +35,7 @@ protected:
     Logic* logic;
     Board* board;
     ComputerPlayer player;
+    Printer* p;
 };
 
 

@@ -10,7 +10,7 @@ TEST_F(ComputerTest, DoMove) {
     board->update(Coordinate(2,3), Black);
     logic->flip(Coordinate(2,3), Black);
     set<Coordinate> availableMoves = logic->availableMoves(White);
-    Coordinate makedMove(player.makeTurn(logic,board, printer , availableMoves));
+    Coordinate makedMove(player.makeTurn(logic,board,availableMoves));
 /* The Current Board will be like this
     | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
     -----------------------------------
@@ -42,7 +42,7 @@ TEST_F(ComputerTest, DoMove) {
     board->update(Coordinate(2,1), Black);
     logic->flip(Coordinate(2,1), Black);
     availableMoves = logic->availableMoves(White);
-    Coordinate anotherMove = player.makeTurn(logic,board, printer , availableMoves);
+    Coordinate anotherMove = player.makeTurn(logic,board, availableMoves);
     EXPECT_EQ(Coordinate(2,4), anotherMove);
 }
 TEST_F(ComputerTest, OnePlaceOnly) {
@@ -57,6 +57,6 @@ TEST_F(ComputerTest, OnePlaceOnly) {
     board->update(Coordinate(2, 3), Black);
     board->update(Coordinate(2, 2), White);
     set<Coordinate> availableMoves = logic->availableMoves(White);
-    Coordinate makedMove(player.makeTurn(logic, board, printer, availableMoves));
+    Coordinate makedMove(player.makeTurn(logic, board, availableMoves));
     EXPECT_EQ(Coordinate(2,4), makedMove);
 }
