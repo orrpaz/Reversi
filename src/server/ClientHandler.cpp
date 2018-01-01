@@ -21,6 +21,7 @@ ClientHandler::~ClientHandler() {
 
 }
 void ClientHandler::acceptClient(int client) {
+    cout << "Before Size:" << threads.size() << endl;
     pthread_t new_thread;
     DataOfClient *dataOfClient = new DataOfClient();
     dataOfClient->clientHandler = this;
@@ -31,6 +32,7 @@ void ClientHandler::acceptClient(int client) {
         exit(-1);
     }
     threads.push_back(new_thread);
+    cout << "After Size:" << threads.size() << endl;
 }
 
  void* ClientHandler::handleClient(void* data) {
@@ -83,6 +85,7 @@ void ClientHandler::analayzeCommand(int client) {
     if (n == -1) {
         throw "Error reading from socket";
     }
+    cout << request << endl;
     //Convert char into string
     string strBuff(request);
     istringstream buf(strBuff);
@@ -100,9 +103,18 @@ void ClientHandler::analayzeCommand(int client) {
     ss << clientSocket;
     //insert the client_socket as the first param in the vector
     vstrings.insert(vstrings.begin(), ss.str());
+    cout << "command: " << command << endl;
+    vector<string>::iterator it;
+    for (it = vstrings.begin(); it != (vstrings).end(); it++) {
+        cout << (*it) << endl;
+    }
 
-
-    //Run the command (Start, listGames, join, close)
+        //Run the command (Start, listGames, join, close)
     commandManager->executeCommand(command, vstrings);
+    cout << "I finished\n";
+
+}
+void ClientHandler::handleExit() {
+    cout << "\nExit was typed\n";
 
 }

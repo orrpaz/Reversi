@@ -168,8 +168,9 @@ void Server::close_() {
     string str;
     while(flag) {
         cin >> str;
-        if (str == "exit") {
+        if (str.compare("exit") == 0) {
             flag = false;
+            clientHandler.handleExit();
         }
     }
     // close threads.

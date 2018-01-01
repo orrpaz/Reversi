@@ -89,6 +89,8 @@ void ConsolePrinter::playingMove(Value sign, Coordinate c) {
 
 bool ConsolePrinter::getInput(int &a) {
     cin >> a;
+    //cin.clear(); // clears error flags
+    cin.ignore(10, '\n');
     if (!cin) {
         cin.clear(); // clears error flags
         cin.ignore(9999, '\n');
@@ -103,10 +105,13 @@ void ConsolePrinter::getInput(string &str) {
 
 string ConsolePrinter::scanString(int i) {
     string str;
-    if (i == 0) {
-        cin.clear(); // clears error flags
-        cin.ignore(9999, '\n');
+    if (i) {
+    cin.ignore();
     }
+//    if (i == 0) {
+//        cin.clear(); // clears error flags
+//        cin.ignore(9999, '\n');
+//    }
     getline(cin, str);
     return str;
 

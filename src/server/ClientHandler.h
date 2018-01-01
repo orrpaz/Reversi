@@ -28,6 +28,7 @@ public:
     //void closeThreads();
     void acceptClient(int client);
     void analayzeCommand(int client);
+    void handleExit();
 
 };
 

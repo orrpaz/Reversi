@@ -45,13 +45,15 @@ void JoinCommand::execute(vector<string> args) {
             if (n == -1) {
                 throw "Error on writing to socket";
             }
+            gamesList->erase(it);
             break;
         }
     }
     pthread_mutex_unlock(&mutex);
-
+    cout <<"Here 1\n";
     //if not found
     if (!found) {
+        cout <<"Here 2\n";
         char msg[this->msgLength] = "-1There is no game with this name!\n";
         int n = write(secondClient , &msg, sizeof(msg));
         if (n == -1) {
@@ -60,23 +62,27 @@ void JoinCommand::execute(vector<string> args) {
         //We don't want to continue
         return;
     }
+    cout <<"Here 3\n";
 
     int firstClient = it->getClientSocket();
+    cout << "client: " << firstClient << endl;
 
     //Gives the priorities
 
     int turn =1;
     // give 1 to the first client
     int n = write(firstClient, &turn, sizeof(turn));
+    cout <<"Here 4\n";
     if(n == -1) {
         cout << "Error writing to socket who's turn it is." << endl;
     }
     turn ++;
+    cout <<"Here 5\n";
     n = write(secondClient, &turn, sizeof(turn));
     if(n == -1) {
         cout << "Error writing to socket who's turn it is." << endl;
     }
-
+    cout <<"Here 6\n";
     //Handeling the game
     int i = 0;
     bool flag = true;

@@ -14,6 +14,7 @@ void StartCommand::execute(vector<string> args) {
     //args[0] - client socket, args[1] - room name
     string str = args[0];
     int client = atoi(str.c_str());
+    cout << "client: " << client << endl;
     // '-1' for siging that the name is already taken
     char exists[this->msgLength] = "-1There is already a game with this name!";
     if(!(*gamesList).empty()) {
@@ -30,6 +31,8 @@ void StartCommand::execute(vector<string> args) {
                     throw "Error on writing to socket";
                 }
                 //We don't want to continue
+                close(client); // close the connection because maybe he won't continue
+                pthread_mutex_unlock(&mutex);
                 return;
             }
         }
@@ -39,8 +42,17 @@ void StartCommand::execute(vector<string> args) {
 
     //Push the game to
     pthread_mutex_lock(&mutex);
+    GameInfo gInfo(args[1], client);
+    cout << "Game name:" << gInfo.getName();
+    cout << "\nGame client:" << gInfo.getClientSocket() << endl;
     (*gamesList).push_back(GameInfo(args[1], client));
-    pthread_mutex_unlock(&mutex);
+    vector<GameInfo>::iterator it;
+    cout << "Here:\n";
+    for (it = (*gamesList).begin(); it != (*gamesList).end(); it++) {
+        cout << (*it).getName() << endl;
+    }
+
+        pthread_mutex_unlock(&mutex);
 
     // '1' for siging thats ok
     char msg[this->msgLength] = "1Waiting for the other player...\n";

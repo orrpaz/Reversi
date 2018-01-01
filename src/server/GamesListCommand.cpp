@@ -5,6 +5,7 @@
 #include <list>
 #include <cstdlib>
 #include <unistd.h>
+#include <cstring>
 #include "GamesListCommand.h"
 GamesListCommand ::GamesListCommand(vector<GameInfo> *games) {
     gamesList = games;
@@ -18,8 +19,11 @@ void GamesListCommand :: execute(vector<string> args) {
     vector<GameInfo>::iterator it;
 
     pthread_mutex_lock(&mutex);
+    cout << "Here2:\n";
     for (it = gamesList->begin(); it != gamesList->end(); ++it) {
         gamesNames.push_back((*it).getName());
+        cout << "List: \n";
+        cout  << (*it).getName();
     }
     pthread_mutex_unlock(&mutex);
 
@@ -30,14 +34,30 @@ void GamesListCommand :: execute(vector<string> args) {
         namesInString.append(*(listIT));
         //join "\n" except from the last time
         if (++listIT != gamesNames.end()) {
-            namesInString.append("\n");
+            namesInString.append(", ");
+        } else {
+            namesInString.append("\0");
         }
     }
+    cout << "AAAAAAAAAAAAAAAAAAAAAAAAAAAA: \n";
+    cout << namesInString << endl;
+    cout << "BBBBBBBBBBBBBBBBBBBBBBBBBBBBB: \n";
     const char* toSend = namesInString.c_str();
+    cout << toSend << endl;
+    char msg[this->msgLength];
+    strcpy(msg, toSend);
+    cout << "CCCCCCCCCCCCCCCCCCCCCCCCCCCC: \n";
+    cout << msg;
 
-    int n = write(client,&toSend, sizeof(toSend));
+    //char *msg= &namesInString[0];
+ //   strcpy(&msg, namesInString.c_str());
+//    memcpy(msg, )
+    int n = write(client,msg, sizeof(msg));
     if (n==-1) {
         throw "Error while writing to socket";
     }
+
+    //At the end, the player get the list, and we close the socket
+    close(client);
 
 }

@@ -35,7 +35,7 @@ Client::Client(const char* fileName) {
     }
     file.close();
 }
-void Client::connectToServer() {
+int Client::connectToServer(Printer* printer, bool first) {
     clientSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (clientSocket == -1) {
         throw "Error opening socket";
@@ -60,58 +60,68 @@ void Client::connectToServer() {
     if (connect(clientSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) == -1) {
         throw "Error connecting to server";
     }
+    if (first){
+        printer->massage("Connected to server\n");
+    }
+
+    return getCommand(printer, first);
+
 //    cout << "Connected to server" << endl << "Waiting for the other players..." << endl;
 }
 
-int Client::getCommand(Printer* printer) {
-    bool flag;
+int Client::getCommand(Printer* printer, bool first) {
     string toSend;
     char serverAnswer[REQ];
     char buffer[REQ];
+    int ignore = first; //to ignore the '\n' from the first choice
 
-    do {
-        flag = false;
-        printer->massage("Please enter one of the following commands: start <name>, "
-                                 "close <name>, join <name>, list_games\n");
-        toSend = printer->scanString(0);
+    printer->massage("\nPlease enter one of the following commands: start <name>, "
+                             "close <name>, join <name>, list_games\n");
+    toSend = printer->scanString(ignore);
 //        printer->getInput(toSend);
-        strcpy(buffer, toSend.c_str());
+    strcpy(buffer, toSend.c_str());
 
-        //Send Command to server
-        ssize_t n = write(clientSocket,buffer ,sizeof(buffer));
-        if (n == -1) {
-            throw "Error writing move to socket";
-        }
+    //Send Command to server
+    ssize_t n = write(clientSocket,buffer ,sizeof(buffer));
+    if (n == -1) {
+        throw "Error writing move to socket";
+    }
 
-        //Get Server response
-        n = read(clientSocket,serverAnswer ,sizeof(serverAnswer));
-        if (n == -1) {
-            throw "Error reading move from socket";
-        }
-
-        //get the
-//        string msg;
-//        stringstream stream(serverAnswer);
-//        int num;
-//        //Split the info-num from server and the message
-//        while(stream >> num) {
-//            getline(stream, msg);
-//        }
-//        //If the request wasn't good or it was list, the loop will repeat
-//        if(num == -1) {
-//            flag = true;
-//        }
-//        //For 'join' command, print "connect successfuly"
-//        //For 'start' command, print "waiting for other player..."
-//        //For 'list_games' command, print the list
+    //Get Server response
+    n = read(clientSocket,serverAnswer ,sizeof(serverAnswer));
+    if (n == -1) {
+        throw "Error reading move from socket";
+    }
+//        cout << "Here4\n";
 //        printer->massage(serverAnswer);
+//        cout << "Here5\n";
 
-    } while (flag);
+    //get the string msg;
+    stringstream stream(serverAnswer);
+    int num;
+    string msg;
+    //Split the info-num from server and the message
+    while(stream >> num) {
+        getline(stream, msg);
+    }
+    msg.append("\n");
+
+    //For 'join' command, print "connect successfuly"
+    //For 'start' command, print "waiting for other player..."
+    //For 'list_games' command, print the list
+    printer->massage(msg);
 
     //For 'join' command, need to get the priority
     //For 'start' command, need to get the priority
     //Prints the list of the games
-    printer->massage(serverAnswer);
+   //printer->massage("");
+
+    //If the request wasn't good or it was list, the loop will repeat
+    if(num == -1) {
+        closeClient();
+        return num;
+    }
+
     int priority = getPriorityValue();
     return priority;
 
@@ -125,6 +135,7 @@ int Client::getPriorityValue() {
     //if priority is 0, it means that it close the game
     int priority;
     ssize_t n = read(clientSocket, &priority, sizeof(priority));
+    cout << "Priority: " << priority << endl;
     return priority;
 }
 void Client::closeClient(){
