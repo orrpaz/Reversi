@@ -35,7 +35,7 @@ Client::Client(const char* fileName) {
     }
     file.close();
 }
-int Client::connectToServer(Printer* printer, bool first) {
+void Client::connectToServer() {
     clientSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (clientSocket == -1) {
         throw "Error opening socket";
@@ -60,11 +60,6 @@ int Client::connectToServer(Printer* printer, bool first) {
     if (connect(clientSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) == -1) {
         throw "Error connecting to server";
     }
-    if (first){
-        printer->massage("Connected to server\n");
-    }
-
-    return getCommand(printer, first);
 
 //    cout << "Connected to server" << endl << "Waiting for the other players..." << endl;
 }
@@ -81,6 +76,12 @@ int Client::getCommand(Printer* printer, bool first) {
 //        printer->getInput(toSend);
     strcpy(buffer, toSend.c_str());
 
+    //Connect to server
+    connectToServer();
+    if (first){
+        printer->massage("Connected to server\n");
+    }
+
     //Send Command to server
     ssize_t n = write(clientSocket,buffer ,sizeof(buffer));
     if (n == -1) {
@@ -91,6 +92,11 @@ int Client::getCommand(Printer* printer, bool first) {
     n = read(clientSocket,serverAnswer ,sizeof(serverAnswer));
     if (n == -1) {
         throw "Error reading move from socket";
+    }
+    if (n==0) {
+        printer->massage("The Server was closed, press any key to apply\n");
+        getchar();
+        exit(-1);
     }
 //        cout << "Here4\n";
 //        printer->massage(serverAnswer);
@@ -123,6 +129,11 @@ int Client::getCommand(Printer* printer, bool first) {
     }
 
     int priority = getPriorityValue();
+    if (priority <= 0) {
+        printer->massage("The Server was closed, press any key to apply\n");
+        getchar();
+        exit(-1);
+    }
     return priority;
 
 }
@@ -135,7 +146,9 @@ int Client::getPriorityValue() {
     //if priority is 0, it means that it close the game
     int priority;
     ssize_t n = read(clientSocket, &priority, sizeof(priority));
-    cout << "Priority: " << priority << endl;
+    if (n <= 0) {
+        return n;
+    }
     return priority;
 }
 void Client::closeClient(){

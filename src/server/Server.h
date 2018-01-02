@@ -11,15 +11,16 @@
 class Server {
 private:
     int port;
-    int serverSocket;
-    ClientHandler clientHandler;
+    long serverSocket;
+    ClientHandler *clientHandler;
+    pthread_t serverThreadId;
 
     bool handleClient(int firstClient, int secondClient);
 
     void givePriority(int firstClient, int secondClient);
 
 public:
-    Server(int port,ClientHandler &clientHandler);
+    Server(int port);
 
     Server(char *file);
 

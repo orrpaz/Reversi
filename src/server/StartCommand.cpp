@@ -15,12 +15,14 @@ void StartCommand::execute(vector<string> args) {
     string str = args[0];
     int client = atoi(str.c_str());
     cout << "client: " << client << endl;
+    cout << "Startmanager\n";
     // '-1' for siging that the name is already taken
     char exists[this->msgLength] = "-1There is already a game with this name!";
     if(!(*gamesList).empty()) {
         vector<GameInfo>::iterator it;
 
         pthread_mutex_lock(&mutex);
+        cout << "Mutex locked:\n";
 
         for (it = (*gamesList).begin(); it != (*gamesList).end(); it++) {
             //Compare the input name to the names in the game list
@@ -33,18 +35,21 @@ void StartCommand::execute(vector<string> args) {
                 //We don't want to continue
                 close(client); // close the connection because maybe he won't continue
                 pthread_mutex_unlock(&mutex);
+                cout << "Mutex unlocked:\n";
                 return;
             }
         }
         pthread_mutex_unlock(&mutex);
+        cout << "Mutex unlocked:\n";
     }
     //The returned massage
 
     //Push the game to
     pthread_mutex_lock(&mutex);
+    cout << "Mutex locked:\n";
     GameInfo gInfo(args[1], client);
     cout << "Game name:" << gInfo.getName();
-    cout << "\nGame client:" << gInfo.getClientSocket() << endl;
+    cout << "\nGame client:" << gInfo.getFirstClient() << endl;
     (*gamesList).push_back(GameInfo(args[1], client));
     vector<GameInfo>::iterator it;
     cout << "Here:\n";
@@ -53,6 +58,7 @@ void StartCommand::execute(vector<string> args) {
     }
 
         pthread_mutex_unlock(&mutex);
+    cout << "Mutex unlocked:\n";
 
     // '1' for siging thats ok
     char msg[this->msgLength] = "1Waiting for the other player...\n";

@@ -5,6 +5,7 @@
 #include <string>
 #include <unistd.h>
 #include <cstdio>
+#include <cstdlib>
 #include "../include/RemotePlayer.h"
 #include "../include/Client.h"
 
@@ -39,6 +40,11 @@ void RemotePlayer::sendCoordinate(Coordinate &coordinate) const{
         if (n == -1) {
             throw "Error writing move to socket";
         }
+//        if (n == 0) {
+//            printer->massage("The Server was closed, press any key to apply\n");
+//            getchar();
+//            exit(-1);
+//        }
     } catch (const char *msg) {
         cout << "Problem detected: " << msg << endl;
         cout << "You should restart the game";
@@ -55,12 +61,18 @@ void RemotePlayer::getCoordinateFromServer(Coordinate &coordinate) const{
 
             throw "Error reading move from socket";
         }
+        if (n == 0) {
+            printer->massage("The Server was closed, press any key to apply\n");
+            getchar();
+            exit(-1);
+        }
         coordinate = Coordinate(move[0], move[1]);
     }catch (const char *msg) {
         printer->massage("Problem detected: ");
         printer->massage(msg);
         printer->massage("You should restart the game");
         getchar();
+        exit(-1);
     }
 }
 
@@ -77,6 +89,16 @@ void RemotePlayer::cantMove(Logic* l) const {
         l->couldntMove();
     }
 }
+//void RemotePlayer::lastMove() {
+//    int move[2];
+//    move[0] = -1;
+//    move[1] = -1;
+//    ssize_t n = write(client->getClientSocket(),&move ,sizeof (move));
+//    if (n == -1) {
+//        throw "Error writing x to socket";
+//    }
+//}
+
 
 
 

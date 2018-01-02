@@ -15,20 +15,9 @@ void JoinCommand::execute(vector<string> args) {
     //Get client info into 'int client'
     string str = args[0];
     int secondClient = atoi(str.c_str());
+    int firstClient = 0;
     string nameOfGame = args[1];
-
-
-//    //If the games's list is empty
-//    pthread_mutex_lock(&mutex);
-//    if (gamesList->empty()) {
-//        int n = write(client, &msg, sizeof(msg));
-//        if (n == -1) {
-//            throw "Error on writing to socket";
-//        }
-//        //We don't want to continue
-//        return;
-//    }
-//    pthread_mutex_unlock(&mutex);
+    cout << "argument room name: " << nameOfGame << endl;
 
     //Search for the game
     vector<GameInfo>::iterator it;
@@ -37,7 +26,7 @@ void JoinCommand::execute(vector<string> args) {
     for (it = (*gamesList).begin(); it != (*gamesList).end(); it++) {
         //Compare the input name to the names in the game list
         if ((*it).getName().compare(nameOfGame) == 0) {
-
+            cout << "iterator room name: " << (*it).getName() << endl;
             found = true;
             //1 for signing that it's OK
             char msg[this->msgLength] = "1Connecting to game...\n";
@@ -45,7 +34,9 @@ void JoinCommand::execute(vector<string> args) {
             if (n == -1) {
                 throw "Error on writing to socket";
             }
-            gamesList->erase(it);
+            firstClient = it->getFirstClient();
+            
+//            gamesList->erase(it);
             break;
         }
     }
@@ -60,12 +51,16 @@ void JoinCommand::execute(vector<string> args) {
             throw "Error on writing to socket";
         }
         //We don't want to continue
+        //At the end, the player get the list, and we close the socket
+        close(secondClient);
         return;
     }
     cout <<"Here 3\n";
 
-    int firstClient = it->getClientSocket();
+    //int firstClient = it->getFirstClient();
     cout << "client: " << firstClient << endl;
+    //set the second client
+    it->setSecondClient(secondClient);
 
     //Gives the priorities
 
@@ -96,9 +91,15 @@ void JoinCommand::execute(vector<string> args) {
         }
         i++;
     }
+
+    pthread_mutex_lock(&mutex);
     // Close communication with the client
     close(firstClient);
     close(secondClient);
+
+    //Erase the game from the list
+    gamesList->erase(it);
+    pthread_mutex_unlock(&mutex);
 }
 
 bool JoinCommand::doMove(int fromSocket, int toSocket) {
@@ -114,6 +115,16 @@ bool JoinCommand::doMove(int fromSocket, int toSocket) {
     }
     cout << "Got move: " << move[0] + 1 << "," << move[1] + 1 << endl;
     if ((move[0] == -1) && (move[1] == -1)) {
+        //
+        n = write(toSocket, &move, sizeof(move));
+        if (n == -1) {
+            cout << "Error writing to socket" << endl;
+        }
+
+        if (n == 0) {
+            cout << "Client disconnected" << endl;
+        }
+        //
         return false;
     }
 

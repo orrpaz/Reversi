@@ -61,6 +61,7 @@ public:
     * Operation: Make the turn after the player chooses row and col
     *************************************************************************/
     virtual Coordinate makeTurn(Logic* l, Board* b, set<Coordinate> availableMoves) = 0;
+    //virtual void lastMove() = 0;
 };
 
 

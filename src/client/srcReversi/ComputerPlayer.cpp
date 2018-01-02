@@ -82,3 +82,7 @@ void ComputerPlayer::cantMove( Logic* l) const {
     char pressAnyKey;
     cin >> pressAnyKey; //wait for user to press any key
 }
+//void ComputerPlayer::lastMove() {
+//
+//}
+

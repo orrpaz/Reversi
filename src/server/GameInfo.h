@@ -13,12 +13,15 @@ class GameInfo {
 public:
     GameInfo(string gameName, int clientSocket);
     string getName() const;
-    int getClientSocket() const;
+    int getFirstClient() const;
+    int getSecondClient() const;
+    void setSecondClient(int &socket);
 
 
 private:
     string gameName;
-    int clientSocket;
+    int clientFirst;
+    int clientSecond;
 };
 
 #endif //REVERSI_GAME_H

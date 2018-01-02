@@ -16,26 +16,26 @@ using namespace std;
 class ComputerTest: public testing::Test {
 public:
 
-    ComputerTest(): player(ComputerPlayer(White, p)){
+    ComputerTest(): player(White, printer = new ConsolePrinter()){
     }
 
     virtual void SetUp() {
         cout << "Setting up" << endl;
         board = new Board(8, Black, White);
         logic = new NormalLogic(board);
-        p = new ConsolePrinter();
     }
     virtual void TearDown() {
         cout << "Tearing down" << endl;
         delete (board);
         delete(logic);
+        delete(printer);
     }
 
 protected:
     Logic* logic;
     Board* board;
     ComputerPlayer player;
-    Printer* p;
+    Printer* printer;
 };
 
 

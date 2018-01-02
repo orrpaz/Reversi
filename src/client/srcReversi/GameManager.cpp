@@ -97,6 +97,7 @@ void GameManager::run() {
         const Value token = players[turn]->getToken();
         set<Coordinate> finalMove = logic->availableMoves(token); //its empty
         putNext(players[turn], finalMove);
+//        players[turn]->lastMove();
     }
     endGame();
 }
@@ -176,9 +177,9 @@ int GameManager::clientCase() {
     try {
         bool first = true;
         int priority = -1;
-        printer->massage("Connecting to server\n");
+        //printer->massage("Connecting to server\n");
         while (priority < 0) {
-            priority = client->connectToServer(printer, first);
+            priority = client->getCommand(printer, first);
             first = false;
         }
         cout << "You are player number: " << priority << endl;

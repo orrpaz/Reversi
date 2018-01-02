@@ -13,7 +13,7 @@ class Client {
 public:
     Client(const char *serverIP, int serverPort);
     Client(const char* fileName);
-    int connectToServer(Printer* p, bool first);
+    void connectToServer();
     void closeClient();
     int getClientSocket() const;
     int getPriorityValue();
