@@ -7,16 +7,14 @@
 #include "GamesListCommand.h"
 #include "JoinCommand.h"
 
-CommandManager::CommandManager(vector<GameInfo> *gameList) {
+CommandManager::CommandManager(vector<GameInfo> *gameList, pthread_mutex_t &mutex) {
     // here we crate all the options of command
     // ctrate StartCommand,CloseCommand,Join,listGame
-    commandsMap["start"] = new StartCommand(gameList);
-    commandsMap["join"] = new JoinCommand(gameList);
-    commandsMap["list_games"] = new GamesListCommand(gameList);
-//    commandsMap["play"] = new PlayCommand();
+
+    commandsMap["start"] = new StartCommand(gameList,mutex);
+    commandsMap["join"] = new JoinCommand(gameList,mutex);
+    commandsMap["list_games"] = new GamesListCommand(gameList,mutex);
 }
-
-
 
 
 

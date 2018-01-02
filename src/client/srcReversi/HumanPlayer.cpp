@@ -45,9 +45,6 @@ void HumanPlayer::cantMove( Logic* l) const {
     char pressAnyKey;
     cin >> pressAnyKey; //wait for user to press any key
 }
-//void HumanPlayer::lastMove() {
-//
-//}
 
 
 /*

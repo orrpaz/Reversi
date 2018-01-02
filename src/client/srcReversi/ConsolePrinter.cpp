@@ -106,12 +106,8 @@ void ConsolePrinter::getInput(string &str) {
 string ConsolePrinter::scanString(int i) {
     string str;
     if (i) {
-    cin.ignore();
+      cin.ignore();
     }
-//    if (i == 0) {
-//        cin.clear(); // clears error flags
-//        cin.ignore(9999, '\n');
-//    }
     getline(cin, str);
     return str;
 

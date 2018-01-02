@@ -7,35 +7,41 @@
 #include <unistd.h>
 #include <cstring>
 #include "GamesListCommand.h"
-GamesListCommand ::GamesListCommand(vector<GameInfo> *games) {
+GamesListCommand ::GamesListCommand(vector<GameInfo> *games,pthread_mutex_t &mutex) {
     gamesList = games;
+    this->mutex = mutex;
+
 }
 void GamesListCommand :: execute(vector<string> args) {
     //args contains: args[0]-client, args[1]- nothing
     string str = args[0];
     int client = atoi(str.c_str());
-    cout << "try to Mutex locked:\n";
-    cout << "Mutex locked:\n";
 
     list<string> gamesNames;
     vector<GameInfo>::iterator it;
 
-    cout << "Here 3 before:\n";
-    // pthread_mutex_lock(&mutex);
-    cout << "Here2:\n";
     pthread_mutex_lock(&mutex);
-    for (it = gamesList->begin(); it != gamesList->end(); ++it) {
-        if (it->getSecondClient() == -1) { //means that no one already connected to game
-            gamesNames.push_back((*it).getName());
-//        cout << "List: \n";
-//        cout  << (*it).getName() << endl;
-//        cout  << (*it).getFirstClient() << endl;
-//        cout  << (*it).getSecondClient() << endl;
+    if(gamesList->empty()) {
+        char msg[this->msgLength] = "-1There are no available rooms !";
+        //Write result to client
+        ssize_t n = write(client,msg, sizeof(msg));
+        if (n == -1) {
+            throw "Error on writing to socket";
         }
+//        pthread_mutex_unlock(&mutex);
+        return;
+    }
+    cout << "Here2:\n";
+    for (it = gamesList->begin(); it != gamesList->end(); ++it) {
+        // means that no one already connected to game.
+        if(it->getSecondClient() == -1 ) {
+            gamesNames.push_back((*it).getName());
+            cout << "List: \n";
+            cout  << (*it).getName();
+        }
+
     }
     pthread_mutex_unlock(&mutex);
-    cout << "Mutex unlocked:\n";
-    // pthread_mutex_unlock(&mutex);
 
     //Make it as one long string, to send it as string
     string namesInString = "-1"; //-1 to info the client it should send another command
@@ -49,20 +55,17 @@ void GamesListCommand :: execute(vector<string> args) {
             namesInString.append("\0");
         }
     }
-    cout << "AAAAAAAAAAAAAAAAAAAAAAAAAAAA: \n";
     cout << namesInString << endl;
-    cout << "BBBBBBBBBBBBBBBBBBBBBBBBBBBBB: \n";
     const char* toSend = namesInString.c_str();
     cout << toSend << endl;
     char msg[this->msgLength];
     strcpy(msg, toSend);
-    cout << "CCCCCCCCCCCCCCCCCCCCCCCCCCCC: \n";
     cout << msg;
 
     //char *msg= &namesInString[0];
-    //   strcpy(&msg, namesInString.c_str());
+ //   strcpy(&msg, namesInString.c_str());
 //    memcpy(msg, )
-    int n = write(client,msg, sizeof(msg));
+    ssize_t n = write(client,msg, sizeof(msg));
     if (n==-1) {
         throw "Error while writing to socket";
     }

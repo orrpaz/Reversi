@@ -10,12 +10,13 @@
 
 class JoinCommand : public Command {
 public:
-    JoinCommand (vector<GameInfo> *gamesList);
+    JoinCommand (vector<GameInfo> *gamesList, pthread_mutex_t &mutex);
     virtual void execute(vector<string> args);
     //virtual ~JoinCommand();
     bool doMove(int fromSocket, int toSocket);
 
 private:
+//    pthread_mutex_t mutex;
     vector<GameInfo>* gamesList;
 };
 

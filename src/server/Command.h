@@ -18,8 +18,8 @@ public:
     virtual ~Command() {}
 
 protected:
-    pthread_mutex_t mutex;
     static const int msgLength = MSG_LENGTH;
+    pthread_mutex_t mutex;
 };
 
 #endif //REVERSI_COMMAND_H

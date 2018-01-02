@@ -97,7 +97,6 @@ void GameManager::run() {
         const Value token = players[turn]->getToken();
         set<Coordinate> finalMove = logic->availableMoves(token); //its empty
         putNext(players[turn], finalMove);
-//        players[turn]->lastMove();
     }
     endGame();
 }

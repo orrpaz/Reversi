@@ -11,11 +11,12 @@
 
 class CommandManager {
 public:
-    CommandManager(vector<GameInfo>*gamesList);
+    CommandManager(vector<GameInfo>*gamesList, pthread_mutex_t &mutex);
     ~CommandManager();
     void executeCommand(string command,
                         vector<string> args);
 private:
+//    pthread_mutex_t mutex;
     map<string, Command *> commandsMap;
 };
 

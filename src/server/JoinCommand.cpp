@@ -1,12 +1,12 @@
-//
-// Created by amir on 28/12/17.
-//
+
 
 #include <cstdlib>
 #include <unistd.h>
 #include "JoinCommand.h"
-JoinCommand ::JoinCommand(vector<GameInfo>* games) : Command() {
+
+JoinCommand ::JoinCommand(vector<GameInfo>* games, pthread_mutex_t &mutex) : Command() {
     gamesList = games;
+    this->mutex = mutex;
 }
 
 void JoinCommand::execute(vector<string> args) {
@@ -25,17 +25,17 @@ void JoinCommand::execute(vector<string> args) {
     pthread_mutex_lock(&mutex);
     for (it = (*gamesList).begin(); it != (*gamesList).end(); it++) {
         //Compare the input name to the names in the game list
-        if ((*it).getName().compare(nameOfGame) == 0) {
+        if ((*it).getName() == nameOfGame) {
             cout << "iterator room name: " << (*it).getName() << endl;
             found = true;
             //1 for signing that it's OK
             char msg[this->msgLength] = "1Connecting to game...\n";
-            int n = write(secondClient , &msg, sizeof(msg));
+            ssize_t n = write(secondClient , msg, sizeof(msg));
             if (n == -1) {
                 throw "Error on writing to socket";
             }
             firstClient = it->getFirstClient();
-            
+
 //            gamesList->erase(it);
             break;
         }
@@ -46,7 +46,7 @@ void JoinCommand::execute(vector<string> args) {
     if (!found) {
         cout <<"Here 2\n";
         char msg[this->msgLength] = "-1There is no game with this name!\n";
-        int n = write(secondClient , &msg, sizeof(msg));
+        ssize_t n = write(secondClient , msg, sizeof(msg));
         if (n == -1) {
             throw "Error on writing to socket";
         }
@@ -66,7 +66,7 @@ void JoinCommand::execute(vector<string> args) {
 
     int turn =1;
     // give 1 to the first client
-    int n = write(firstClient, &turn, sizeof(turn));
+    ssize_t n = write(firstClient, &turn, sizeof(turn));
     cout <<"Here 4\n";
     if(n == -1) {
         cout << "Error writing to socket who's turn it is." << endl;

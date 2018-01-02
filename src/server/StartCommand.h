@@ -10,11 +10,12 @@
 
 class StartCommand : public Command {
 public:
-    StartCommand (vector<GameInfo> *gamesList);
+    StartCommand (vector<GameInfo> *gamesList,pthread_mutex_t &mutex);
     virtual void execute(vector<string> args);
     //virtual ~StartCommand();
 
 private:
+//    pthread_mutex_t mutex;
     vector<GameInfo>* gamesList;
 };
 

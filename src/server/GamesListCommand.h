@@ -14,7 +14,7 @@ public:
      * constructor.
      * @param gamesList - vector of the game.
      */
-    GamesListCommand(vector<GameInfo> *gamesList);
+    GamesListCommand(vector<GameInfo> *gamesList,pthread_mutex_t &mutex);
     /**
      *
      * @param args
@@ -25,6 +25,7 @@ public:
      */
     //~GamesListCommand() {};
 private:
+//    pthread_mutex_t mutex;
     vector<GameInfo> *gamesList;
 
 

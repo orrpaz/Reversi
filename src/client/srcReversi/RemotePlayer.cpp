@@ -17,10 +17,10 @@ RemotePlayer::RemotePlayer(const Value t, const Client *client, Printer* printer
 }
 
 Coordinate RemotePlayer::makeTurn(Logic* logic, Board* originalBoard,
-                                    set<Coordinate> availableMoves) {
+                                  set<Coordinate> availableMoves) {
     Coordinate c = logic->getLastMove();
     if (priority == 1) { //We dont want the second player to send coordinate at first turn
-    sendCoordinate(c);
+        sendCoordinate(c);
     }
 
     priority = 1;
@@ -36,15 +36,14 @@ void RemotePlayer::sendCoordinate(Coordinate &coordinate) const{
     move[1] = coordinate.getCol();
 
     try {
-        ssize_t n = write(client->getClientSocket(),&move ,sizeof (move));
+        ssize_t n = write(client->getClientSocket(),move ,sizeof (move));
         if (n == -1) {
             throw "Error writing move to socket";
         }
-//        if (n == 0) {
-//            printer->massage("The Server was closed, press any key to apply\n");
-//            getchar();
-//            exit(-1);
-//        }
+        if (n == 0) {
+            printer->massage("The Server was closed\n");
+            exit(-1);
+        }
     } catch (const char *msg) {
         cout << "Problem detected: " << msg << endl;
         cout << "You should restart the game";
@@ -56,14 +55,13 @@ void RemotePlayer::sendCoordinate(Coordinate &coordinate) const{
 void RemotePlayer::getCoordinateFromServer(Coordinate &coordinate) const{
     int move[2];
     try {
-        ssize_t n = read(client->getClientSocket(),&move ,sizeof (move));
+        ssize_t n = read(client->getClientSocket(),move ,sizeof (move));
         if (n == -1) {
 
             throw "Error reading move from socket";
         }
         if (n == 0) {
-            printer->massage("The Server was closed, press any key to apply\n");
-            getchar();
+            printer->massage("The Server was closed\n");
             exit(-1);
         }
         coordinate = Coordinate(move[0], move[1]);
@@ -71,7 +69,6 @@ void RemotePlayer::getCoordinateFromServer(Coordinate &coordinate) const{
         printer->massage("Problem detected: ");
         printer->massage(msg);
         printer->massage("You should restart the game");
-        getchar();
         exit(-1);
     }
 }
@@ -89,15 +86,6 @@ void RemotePlayer::cantMove(Logic* l) const {
         l->couldntMove();
     }
 }
-//void RemotePlayer::lastMove() {
-//    int move[2];
-//    move[0] = -1;
-//    move[1] = -1;
-//    ssize_t n = write(client->getClientSocket(),&move ,sizeof (move));
-//    if (n == -1) {
-//        throw "Error writing x to socket";
-//    }
-//}
 
 
 

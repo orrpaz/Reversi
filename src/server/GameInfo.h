@@ -8,7 +8,6 @@
 
 #include <iostream>
 using namespace std;
-
 class GameInfo {
 public:
     GameInfo(string gameName, int clientSocket);

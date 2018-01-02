@@ -14,24 +14,24 @@ class ClientHandler {
 
     struct DataOfClient{
         ClientHandler *clientHandler;
-        long clientSocket;
+        int clientSocket;
     };
 
 private:
     vector<GameInfo> *gamesList;
     CommandManager* commandManager;
-    vector<pthread_t> threads;
-    pthread_t getGet;
+    vector<pthread_t> *threads;
+    pthread_mutex_t threadsMutex;
+    pthread_mutex_t mutex;
+
 public:
     ClientHandler();
     ~ClientHandler();
     static void* handleClient(void *data);
     //void closeThreads();
-    void acceptClient(int client);
+    void clientThreads(int client);
     void analayzeCommand(int client);
     void handleExit();
-    void getClients(long &serverSocket);
-    static void* getMore(void* data);
 
 };
 

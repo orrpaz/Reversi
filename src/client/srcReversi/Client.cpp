@@ -70,10 +70,21 @@ int Client::getCommand(Printer* printer, bool first) {
     char buffer[REQ];
     int ignore = first; //to ignore the '\n' from the first choice
 
+    bool isValid = false;
+    do {
     printer->massage("\nPlease enter one of the following commands: start <name>, "
-                             "close <name>, join <name>, list_games\n");
+                             " join <name>, list_games\n");
     toSend = printer->scanString(ignore);
-//        printer->getInput(toSend);
+        istringstream iss(toSend);
+        string subs;
+        iss >> subs;
+        if ((toSend == "list_games") || (subs == "start") ||(subs == "join") ) {
+            isValid = true;
+        } else {
+            printer->massage("\nPlease insert correct command!\n");
+            ignore = false;
+        }
+    } while (!isValid);
     strcpy(buffer, toSend.c_str());
 
     //Connect to server
@@ -94,13 +105,10 @@ int Client::getCommand(Printer* printer, bool first) {
         throw "Error reading move from socket";
     }
     if (n==0) {
-        printer->massage("The Server was closed, press any key to apply\n");
-        getchar();
+        printer->massage("The Server was closed\n");
         exit(-1);
     }
-//        cout << "Here4\n";
-//        printer->massage(serverAnswer);
-//        cout << "Here5\n";
+
 
     //get the string msg;
     stringstream stream(serverAnswer);
@@ -119,8 +127,6 @@ int Client::getCommand(Printer* printer, bool first) {
 
     //For 'join' command, need to get the priority
     //For 'start' command, need to get the priority
-    //Prints the list of the games
-   //printer->massage("");
 
     //If the request wasn't good or it was list, the loop will repeat
     if(num == -1) {
@@ -130,8 +136,7 @@ int Client::getCommand(Printer* printer, bool first) {
 
     int priority = getPriorityValue();
     if (priority <= 0) {
-        printer->massage("The Server was closed, press any key to apply\n");
-        getchar();
+        printer->massage("The Server was closed\n");
         exit(-1);
     }
     return priority;
@@ -154,4 +159,3 @@ int Client::getPriorityValue() {
 void Client::closeClient(){
     close(clientSocket);
 }
-

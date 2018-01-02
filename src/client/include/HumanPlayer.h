@@ -31,7 +31,6 @@ public:
     virtual Coordinate makeTurn(Logic* l, Board* b, set<Coordinate> availableMoves);
     virtual void startTurn( const Value &sign, Coordinate c) const;
     virtual void cantMove( Logic* l) const;
-    //virtual void lastMove();
 
 private:
     Printer* printer;

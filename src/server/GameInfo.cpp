@@ -7,7 +7,7 @@
 GameInfo::GameInfo(string name, int socket) {
     gameName= name;
     clientFirst = socket;
-    clientSecond = -1; //temp var at start
+    clientSecond = -1; // temp var at start
 }
 string GameInfo::getName() const {
     return gameName;

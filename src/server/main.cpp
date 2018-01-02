@@ -7,6 +7,7 @@
 
 using namespace std;
 int main() {
+    ClientHandler *clientHandler = new ClientHandler();
     int port;
     ifstream inFile;
     inFile.open("../exe/setting_server.txt");
@@ -21,14 +22,15 @@ int main() {
         stringstream(line) >> port;
     }
     inFile.close();
-    cout << "main\n";
-    Server server(port);
+    Server server(port, clientHandler);
     try {
         server.start();
-        cout << "JJJJJJJJJJJJJJJJJJJ\n";
+//        cout << "Server stopped" << endl;
+//        server.stop();
     } catch (const char *msg) {
         cout << "Cannot start server. Reason: " << msg << endl;
-        server.stop();
+
         exit(-1);
     }
+    delete clientHandler;
 }
