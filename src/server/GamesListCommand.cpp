@@ -31,13 +31,10 @@ void GamesListCommand :: execute(vector<string> args) {
 //        pthread_mutex_unlock(&mutex);
         return;
     }
-    cout << "Here2:\n";
     for (it = gamesList->begin(); it != gamesList->end(); ++it) {
         // means that no one already connected to game.
         if(it->getSecondClient() == -1 ) {
             gamesNames.push_back((*it).getName());
-            cout << "List: \n";
-            cout  << (*it).getName();
         }
 
     }
@@ -55,16 +52,14 @@ void GamesListCommand :: execute(vector<string> args) {
             namesInString.append("\0");
         }
     }
-    cout << namesInString << endl;
+
     const char* toSend = namesInString.c_str();
-    cout << toSend << endl;
+
     char msg[this->msgLength];
     strcpy(msg, toSend);
-    cout << msg;
 
-    //char *msg= &namesInString[0];
- //   strcpy(&msg, namesInString.c_str());
-//    memcpy(msg, )
+
+
     ssize_t n = write(client,msg, sizeof(msg));
     if (n==-1) {
         throw "Error while writing to socket";

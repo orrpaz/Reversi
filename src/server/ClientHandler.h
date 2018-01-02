@@ -30,7 +30,7 @@ public:
     static void* handleClient(void *data);
     //void closeThreads();
     void clientThreads(int client);
-    void analayzeCommand(int client);
+    void analyzeCommand(int client);
     void handleExit();
 
 };

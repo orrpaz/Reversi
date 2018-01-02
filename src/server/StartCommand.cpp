@@ -15,7 +15,6 @@ void StartCommand::execute(vector<string> args) {
     //args[0] - client socket, args[1] - room name
     string str = args[0];
     int client = atoi(str.c_str());
-    cout << "client: " << client << endl;
     // '-1' for siging that the name is already taken
     char exists[this->msgLength] = "-1There is already a game with this name!";
     if(!(*gamesList).empty()) {
@@ -44,14 +43,11 @@ void StartCommand::execute(vector<string> args) {
     //Push the game to
     pthread_mutex_lock(&mutex);
     GameInfo gInfo(args[1], client);
-    cout << "Game name:" << gInfo.getName();
-    cout << "\nGame client:" << gInfo.getFirstClient() << endl;
     (*gamesList).push_back(GameInfo(args[1], client));
     vector<GameInfo>::iterator it;
-    cout << "Here:\n";
-    for (it = (*gamesList).begin(); it != (*gamesList).end(); it++) {
-        cout << (*it).getName() << endl;
-    }
+//    for (it = (*gamesList).begin(); it != (*gamesList).end(); it++) {
+//        cout << (*it).getName() << endl;
+//    }
 
         pthread_mutex_unlock(&mutex);
 

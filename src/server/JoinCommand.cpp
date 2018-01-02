@@ -17,7 +17,6 @@ void JoinCommand::execute(vector<string> args) {
     int secondClient = atoi(str.c_str());
     int firstClient = 0;
     string nameOfGame = args[1];
-    cout << "argument room name: " << nameOfGame << endl;
 
     //Search for the game
     vector<GameInfo>::iterator it;
@@ -26,7 +25,6 @@ void JoinCommand::execute(vector<string> args) {
     for (it = (*gamesList).begin(); it != (*gamesList).end(); it++) {
         //Compare the input name to the names in the game list
         if ((*it).getName() == nameOfGame) {
-            cout << "iterator room name: " << (*it).getName() << endl;
             found = true;
             //1 for signing that it's OK
             char msg[this->msgLength] = "1Connecting to game...\n";
@@ -41,10 +39,8 @@ void JoinCommand::execute(vector<string> args) {
         }
     }
     pthread_mutex_unlock(&mutex);
-    cout <<"Here 1\n";
     //if not found
     if (!found) {
-        cout <<"Here 2\n";
         char msg[this->msgLength] = "-1There is no game with this name!\n";
         ssize_t n = write(secondClient , msg, sizeof(msg));
         if (n == -1) {
@@ -55,10 +51,7 @@ void JoinCommand::execute(vector<string> args) {
         close(secondClient);
         return;
     }
-    cout <<"Here 3\n";
 
-    //int firstClient = it->getFirstClient();
-    cout << "client: " << firstClient << endl;
     //set the second client
     it->setSecondClient(secondClient);
 
@@ -67,17 +60,14 @@ void JoinCommand::execute(vector<string> args) {
     int turn =1;
     // give 1 to the first client
     ssize_t n = write(firstClient, &turn, sizeof(turn));
-    cout <<"Here 4\n";
     if(n == -1) {
         cout << "Error writing to socket who's turn it is." << endl;
     }
     turn ++;
-    cout <<"Here 5\n";
     n = write(secondClient, &turn, sizeof(turn));
     if(n == -1) {
         cout << "Error writing to socket who's turn it is." << endl;
     }
-    cout <<"Here 6\n";
     //Handeling the game
     int i = 0;
     bool flag = true;
