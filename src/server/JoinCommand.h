@@ -16,7 +16,6 @@ public:
     bool doMove(int fromSocket, int toSocket);
 
 private:
-//    pthread_mutex_t mutex;
     vector<GameInfo>* gamesList;
 };
 

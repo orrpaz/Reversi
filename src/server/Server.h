@@ -8,40 +8,26 @@
 //
 #include "ClientHandler.h"
 
-//class Server {
-//private:
-//    int port;
-//    int serverSocket;
-//    ClientHandler clientHandler;
-//
-//
-//    pthread_t serverThreadId;
-//
-//    bool handleClient(int firstClient, int secondClient);
-//
-//    void givePriority(int firstClient, int secondClient);
-//
-//public:
-//    Server(int port,ClientHandler &clientHandler);
-//
-//    Server(char *file);
-//
-//    void start();
-//
-//    void stop();
-//
-//    static void *startClose(void *object);
-//
-//    void close_();
-//};
+
 
 #include <pthread.h>
 class Server {
 public:
+    /**
+     * constructor
+     * @param port
+     * @param clientHandler
+     */
     Server(int port,ClientHandler *clientHandler);
+    /**
+     * start.
+     */
     void start();
+    /**
+     * stop.
+     */
     void stop();
-    void close_();
+
 private:
     int port;
     int serverSocket; // the socket's file descriptor
