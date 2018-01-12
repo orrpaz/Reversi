@@ -2,6 +2,7 @@
 // Created by or on 22/12/17.
 //
 
+
 #ifndef REVERSI_STARTCOMMAND_H
 #define REVERSI_STARTCOMMAND_H
 

@@ -5,12 +5,18 @@
 #include "../client/include/ConsolePrinter.h"
 
 TEST_F(ComputerTest, DoMove) {
-//    Printer *printer = new ConsolePrinter();
+    //Printer *printer = new ConsolePrinter();
+    cout << "Here\n";
+    printer->massage("amir\n");
 
     board->update(Coordinate(2,3), Black);
     logic->flip(Coordinate(2,3), Black);
+    cout << "Here1\n";
     set<Coordinate> availableMoves = logic->availableMoves(White);
+    printer->availableMoves(availableMoves);
+    cout << "Here2\n";
     Coordinate makedMove(player.makeTurn(logic,board,availableMoves));
+    cout << "Here3\n";
 /* The Current Board will be like this
     | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
     -----------------------------------
@@ -42,11 +48,10 @@ TEST_F(ComputerTest, DoMove) {
     board->update(Coordinate(2,1), Black);
     logic->flip(Coordinate(2,1), Black);
     availableMoves = logic->availableMoves(White);
-    Coordinate anotherMove = player.makeTurn(logic,board,availableMoves);
+    Coordinate anotherMove = player.makeTurn(logic,board, availableMoves);
     EXPECT_EQ(Coordinate(2,4), anotherMove);
 }
 TEST_F(ComputerTest, OnePlaceOnly) {
-//    Printer *printer = new ConsolePrinter();
     //Clear the board
     board->update(Coordinate(2, 3), Empty);
     board->update(Coordinate(3, 2), Empty);
@@ -57,6 +62,6 @@ TEST_F(ComputerTest, OnePlaceOnly) {
     board->update(Coordinate(2, 3), Black);
     board->update(Coordinate(2, 2), White);
     set<Coordinate> availableMoves = logic->availableMoves(White);
-    Coordinate makedMove(player.makeTurn(logic, board,availableMoves));
+    Coordinate makedMove(player.makeTurn(logic, board, availableMoves));
     EXPECT_EQ(Coordinate(2,4), makedMove);
 }

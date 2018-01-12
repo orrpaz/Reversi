@@ -27,7 +27,10 @@ public:
      * stop.
      */
     void stop();
-
+    /**
+     * close.
+     */
+    void close_();
 private:
     int port;
     int serverSocket; // the socket's file descriptor

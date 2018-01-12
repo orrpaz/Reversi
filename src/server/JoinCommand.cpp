@@ -42,7 +42,7 @@ void JoinCommand::execute(vector<string> args) {
     //if not found
     if (!found) {
         char msg[this->msgLength] = "-1There is no game with this name!\n";
-        ssize_t n = write(secondClient , msg, sizeof(msg));
+        ssize_t n = write(secondClient ,msg, sizeof(msg));
         if (n == -1) {
             throw "Error on writing to socket";
         }
@@ -94,7 +94,7 @@ void JoinCommand::execute(vector<string> args) {
 
 bool JoinCommand::doMove(int fromSocket, int toSocket) {
     int move[2];
-    ssize_t n = read(fromSocket, &move, sizeof(move));
+    ssize_t n = read(fromSocket,move, sizeof(move));
     if (n == -1) {
         cout << "Error reading " << endl;
         return false;
@@ -106,7 +106,7 @@ bool JoinCommand::doMove(int fromSocket, int toSocket) {
     cout << "Got move: " << move[0] + 1 << "," << move[1] + 1 << endl;
     if ((move[0] == -1) && (move[1] == -1)) {
         //
-        n = write(toSocket, &move, sizeof(move));
+        n = write(toSocket,move, sizeof(move));
         if (n == -1) {
             cout << "Error writing to socket" << endl;
         }
@@ -119,7 +119,7 @@ bool JoinCommand::doMove(int fromSocket, int toSocket) {
     }
 
 
-    n = write(toSocket, &move, sizeof(move));
+    n = write(toSocket,move, sizeof(move));
     if (n == -1) {
         cout << "Error writing to socket" << endl;
         return false;

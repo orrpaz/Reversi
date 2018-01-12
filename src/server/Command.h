@@ -2,6 +2,7 @@
 // Created by or on 22/12/17.
 //
 
+
 #define MSG_LENGTH 200
 
 #ifndef REVERSI_COMMAND_H

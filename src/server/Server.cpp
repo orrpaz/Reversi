@@ -85,4 +85,15 @@ void Server::stop() {
     cout << "Server stopped" << endl;
 }
 
-
+void Server::close_() {
+    bool isExit = false;
+    string str;
+    while (!isExit) {
+        cin >> str;
+        if (str == "exit") {
+            isExit = true;
+            clientHandler->handleExit();
+            stop();
+        }
+    }
+}

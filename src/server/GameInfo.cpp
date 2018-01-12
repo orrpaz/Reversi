@@ -2,6 +2,7 @@
 // Created by or on 24/12/17.
 //
 
+
 #include "GameInfo.h"
 
 GameInfo::GameInfo(string name, int socket) {

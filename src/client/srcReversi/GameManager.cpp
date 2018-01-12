@@ -10,6 +10,7 @@
 #include "../include/Client.h"
 using namespace std;
 
+
 GameManager::GameManager() : board(), logic(), players(), printer(), tie() {
     initialize(8);
 }
