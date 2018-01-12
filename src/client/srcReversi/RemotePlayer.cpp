@@ -1,7 +1,6 @@
 //
 // Created by or on 06/12/17.
 //
-
 #include <iostream>
 #include <string>
 #include <unistd.h>
@@ -23,6 +22,9 @@ Coordinate RemotePlayer::makeTurn(Logic* logic, Board* originalBoard,
     if (priority == 1) { //We dont want the second player to send coordinate at first turn
         sendCoordinate(c);
     }
+    if (c.getRow() == -8) {
+        return c;
+    }
 
     priority = 1;
     getCoordinateFromServer(c);
@@ -42,8 +44,8 @@ void RemotePlayer::sendCoordinate(Coordinate &coordinate) const{
             throw "Error writing move to socket";
         }
         if (n == 0) {
-            printer->massage("The Server was closed\n");
-            exit(-1);
+            coordinate = Coordinate(-8, -8);
+            return;
         }
     } catch (const char *msg) {
         cout << "Problem detected: " << msg << endl;
@@ -62,8 +64,11 @@ void RemotePlayer::getCoordinateFromServer(Coordinate &coordinate) const{
             throw "Error reading move from socket";
         }
         if (n == 0) {
-            printer->massage("The Server was closed\n");
-            exit(-1);
+//            printer->massage("The Server was closed4\n");
+              coordinate = Coordinate(-8, -8);
+            return;
+//            coordinate = Coordinate(-8, -8); // the server close (indicate for it)
+//            return;
         }
         coordinate = Coordinate(move[0], move[1]);
     }catch (const char *msg) {

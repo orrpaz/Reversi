@@ -2,7 +2,6 @@
 // Created by amir on 26/12/17.
 //
 
-
 #include <unistd.h>
 #include <iterator>
 #include <sstream>
@@ -42,21 +41,23 @@ void ClientHandler::clientThreads(int client) {
  void* ClientHandler::handleClient(void* data) {
     DataOfClient *dataOfClient = (DataOfClient*)data;
     ClientHandler *ptr = dataOfClient->clientHandler;
-    ptr->analyzeCommand(dataOfClient->clientSocket);
+    ptr->analayzeCommand(dataOfClient->clientSocket);
 
 
 
 }
-void ClientHandler::analyzeCommand(int client) {
+void ClientHandler::analayzeCommand(int client) {
     char request[REQ];
 
-
+    // נכון?
+    //long clientSocket=(long)socket;
     int clientSocket = client;
+    //ssize_t n = read((int)clientSocket, &request, sizeof(request));
     ssize_t n = read(clientSocket, request, sizeof(request));
     if (n == -1) {
         throw "Error reading from socket";
     }
-   //Convert char into string
+    //Convert char into string
     string strBuff(request);
     istringstream buf(strBuff);
     //split by ' '
@@ -74,15 +75,17 @@ void ClientHandler::analyzeCommand(int client) {
     //insert the client_socket as the first param in the vector
     vstrings.insert(vstrings.begin(), ss.str());
     vector<string>::iterator it;
-//    for (it = vstrings.begin(); it != (vstrings).end(); it++) {
-//        cout << (*it) << endl;
-//    }
+    for (it = vstrings.begin(); it != (vstrings).end(); it++) {
+        cout << (*it) << endl;
+    }
 
         //Run the command (Start, listGames, join, close)
     commandManager->executeCommand(command, vstrings);
+    cout << "I finished\n";
 
 }
 void ClientHandler::handleExit() {
+//    int move[2] = {-3,-3};
     pthread_mutex_lock(&threadsMutex);
     vector<pthread_t>::iterator it;
     for (it = threads->begin(); it != threads->end(); ++it) {
@@ -96,11 +99,15 @@ void ClientHandler::handleExit() {
     pthread_mutex_lock(&mutex);
     for (iterGameRoom = gamesList->begin(); iterGameRoom != gamesList->end(); ++iterGameRoom) {
         close((*iterGameRoom).getFirstClient());
+//        ssize_t n = write((*iterGameRoom).getFirstClient(), move, sizeof(move));
         if ((*iterGameRoom).getSecondClient() != -1)
             close((*iterGameRoom).getSecondClient());
 
     }
     pthread_mutex_unlock(&mutex);
-
+    
+   
+    
+    cout << "\nExit was typed\n";
 }
 

@@ -16,6 +16,7 @@
 #define REQ 200
 
 
+
 using namespace std;
 
 
@@ -103,9 +104,12 @@ int Client::getCommand(Printer* printer, bool first) {
     if (n == -1) {
         throw "Error reading move from socket";
     }
-    if (n==0) {
-        printer->massage("The Server was closed\n");
-        exit(-1);
+    if (n == 0) {
+        printer->massage("The Server was closed1\n");
+        closeClient();
+        return -2;
+        
+//        exit(-1);
     }
 
 
@@ -135,8 +139,10 @@ int Client::getCommand(Printer* printer, bool first) {
 
     int priority = getPriorityValue();
     if (priority <= 0) {
-        printer->massage("The Server was closed\n");
-        exit(-1);
+        printer->massage("The Server was closed2\n");
+        closeClient();
+        return -2;
+        
     }
     return priority;
 
@@ -151,7 +157,7 @@ int Client::getPriorityValue() {
     int priority;
     ssize_t n = read(clientSocket, &priority, sizeof(priority));
     if (n <= 0) {
-        return n;
+        return (int)n;
     }
     return priority;
 }

@@ -20,6 +20,7 @@ private:
     Client* client;
     int tie;
     bool isClientPlay;
+    bool shouldStop;
 
 public:
     /************************************************************************

@@ -13,23 +13,9 @@
 #include <pthread.h>
 class Server {
 public:
-    /**
-     * constructor
-     * @param port
-     * @param clientHandler
-     */
     Server(int port,ClientHandler *clientHandler);
-    /**
-     * start.
-     */
     void start();
-    /**
-     * stop.
-     */
     void stop();
-    /**
-     * close.
-     */
     void close_();
 private:
     int port;

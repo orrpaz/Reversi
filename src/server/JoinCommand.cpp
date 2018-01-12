@@ -17,6 +17,7 @@ void JoinCommand::execute(vector<string> args) {
     int secondClient = atoi(str.c_str());
     int firstClient = 0;
     string nameOfGame = args[1];
+    cout << "argument room name: " << nameOfGame << endl;
 
     //Search for the game
     vector<GameInfo>::iterator it;
@@ -25,6 +26,7 @@ void JoinCommand::execute(vector<string> args) {
     for (it = (*gamesList).begin(); it != (*gamesList).end(); it++) {
         //Compare the input name to the names in the game list
         if ((*it).getName() == nameOfGame) {
+            cout << "iterator room name: " << (*it).getName() << endl;
             found = true;
             //1 for signing that it's OK
             char msg[this->msgLength] = "1Connecting to game...\n";
@@ -42,7 +44,7 @@ void JoinCommand::execute(vector<string> args) {
     //if not found
     if (!found) {
         char msg[this->msgLength] = "-1There is no game with this name!\n";
-        ssize_t n = write(secondClient ,msg, sizeof(msg));
+        ssize_t n = write(secondClient , msg, sizeof(msg));
         if (n == -1) {
             throw "Error on writing to socket";
         }
@@ -52,6 +54,8 @@ void JoinCommand::execute(vector<string> args) {
         return;
     }
 
+    //int firstClient = it->getFirstClient();
+    cout << "client: " << firstClient << endl;
     //set the second client
     it->setSecondClient(secondClient);
 
@@ -94,7 +98,7 @@ void JoinCommand::execute(vector<string> args) {
 
 bool JoinCommand::doMove(int fromSocket, int toSocket) {
     int move[2];
-    ssize_t n = read(fromSocket,move, sizeof(move));
+    ssize_t n = read(fromSocket, move, sizeof(move));
     if (n == -1) {
         cout << "Error reading " << endl;
         return false;
@@ -106,7 +110,7 @@ bool JoinCommand::doMove(int fromSocket, int toSocket) {
     cout << "Got move: " << move[0] + 1 << "," << move[1] + 1 << endl;
     if ((move[0] == -1) && (move[1] == -1)) {
         //
-        n = write(toSocket,move, sizeof(move));
+        n = write(toSocket, move, sizeof(move));
         if (n == -1) {
             cout << "Error writing to socket" << endl;
         }
@@ -119,7 +123,7 @@ bool JoinCommand::doMove(int fromSocket, int toSocket) {
     }
 
 
-    n = write(toSocket,move, sizeof(move));
+    n = write(toSocket, &move, sizeof(move));
     if (n == -1) {
         cout << "Error writing to socket" << endl;
         return false;

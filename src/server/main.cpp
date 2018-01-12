@@ -5,15 +5,13 @@
 #include <fstream>
 #include <sstream>
 
-
 using namespace std;
 int main() {
     ClientHandler *clientHandler = new ClientHandler();
     int port;
     ifstream inFile;
-    inFile.open("../exe/setting_server.txt");
+    inFile.open("setting_server.txt");
     if(!inFile.is_open()) {
-        cout <<"Here";
         throw "Can't open file";
     }
     string line;
@@ -26,11 +24,10 @@ int main() {
     Server server(port, clientHandler);
     try {
         server.start();
-//        cout << "Server stopped" << endl;
-//        server.stop();
+
     } catch (const char *msg) {
         cout << "Cannot start server. Reason: " << msg << endl;
-
+        delete clientHandler;
         exit(-1);
     }
     delete clientHandler;

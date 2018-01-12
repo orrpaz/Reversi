@@ -2,7 +2,6 @@
 // Created by or on 22/12/17.
 //
 
-
 #define MSG_LENGTH 200
 
 #ifndef REVERSI_COMMAND_H
@@ -15,14 +14,7 @@
 using namespace std;
 class Command {
 public:
-    /**
-     * run the command
-     * @param args  - argument 
-     */
     virtual void execute(vector<string> args) = 0;
-    /**
-     * destructor
-     */
     virtual ~Command() {}
 
 protected:

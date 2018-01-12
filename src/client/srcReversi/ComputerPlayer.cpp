@@ -5,7 +5,6 @@
 #include <iostream>
 #include "../include/ComputerPlayer.h"
 
-
 using namespace std;
 ComputerPlayer::ComputerPlayer(const Value t ,Printer* p): Player(t) ,printer(p) {
 }

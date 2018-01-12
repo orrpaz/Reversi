@@ -2,7 +2,6 @@
 // Created by or on 27/12/17.
 //
 
-
 #ifndef REVERSI_LISTGAMESCOMMAND_H
 #define REVERSI_LISTGAMESCOMMAND_H
 

@@ -2,7 +2,6 @@
 // Created by or on 22/12/17.
 //
 
-
 #include <unistd.h>
 #include <cstdlib>
 #include "StartCommand.h"
@@ -44,11 +43,13 @@ void StartCommand::execute(vector<string> args) {
     //Push the game to
     pthread_mutex_lock(&mutex);
     GameInfo gInfo(args[1], client);
+    cout << "Game name:" << gInfo.getName();
+    cout << "\nGame client:" << gInfo.getFirstClient() << endl;
     (*gamesList).push_back(GameInfo(args[1], client));
     vector<GameInfo>::iterator it;
-//    for (it = (*gamesList).begin(); it != (*gamesList).end(); it++) {
-//        cout << (*it).getName() << endl;
-//    }
+    for (it = (*gamesList).begin(); it != (*gamesList).end(); it++) {
+        cout << (*it).getName() << endl;
+    }
 
         pthread_mutex_unlock(&mutex);
 

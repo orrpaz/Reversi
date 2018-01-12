@@ -1,5 +1,6 @@
 
 
+
 #include "Server.h"
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -75,6 +76,9 @@ static void *acceptClients(void *args) {
             throw "Error on accept";
         information->handler->clientThreads(clientSocket);
 
+
+//        pthread_t threadId;
+//        pthread_create(&threadId, NULL, &handleClient, (void *)clientSocket);
     }
 }
 
@@ -97,3 +101,4 @@ void Server::close_() {
         }
     }
 }
+//}

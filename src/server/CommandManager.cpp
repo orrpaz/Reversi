@@ -2,7 +2,6 @@
 // Created by or on 22/12/17.
 //
 
-
 #include "CommandManager.h"
 #include "StartCommand.h"
 #include "GamesListCommand.h"

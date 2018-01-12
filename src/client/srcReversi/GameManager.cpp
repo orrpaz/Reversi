@@ -10,7 +10,6 @@
 #include "../include/Client.h"
 using namespace std;
 
-
 GameManager::GameManager() : board(), logic(), players(), printer(), tie() {
     initialize(8);
 }
@@ -30,8 +29,10 @@ GameManager::~GameManager() {
     }
 
 }
-void GameManager::initialize(const int &size) {
+static bool needToStop = false;
 
+void GameManager::initialize(const int &size) {
+    int priority ;
     const Value p1Token = Black;
     const Value p2Token = White;
     isClientPlay = false;
@@ -40,6 +41,7 @@ void GameManager::initialize(const int &size) {
     logic = new NormalLogic(board);
     players = new Player*[2];
     char gameMode ,flag = 1;
+    shouldStop = false;
     printer->massage("Choose a game mode:\n\n1) Player vs Player\n\n2)"
                              " Player vs Computer\n\n3) Player vs Remote Player\n\n");
 
@@ -56,9 +58,9 @@ void GameManager::initialize(const int &size) {
                 players[1] = new ComputerPlayer(p2Token,printer);
                 flag = 0;
                 break;
-            case '3': {
+            case '3':
                 isClientPlay = true;
-                int priority = clientCase();
+                priority = clientCase();
                 if (priority == 0) { // If client connection failed
                     return;
                 }
@@ -71,7 +73,7 @@ void GameManager::initialize(const int &size) {
                 }
                 flag = 0;
                 break;
-            }
+
             default:
                 printer->massage("Please press legal number\n");
                 break;
@@ -85,6 +87,10 @@ void GameManager::run() {
     int turn = 0;
     while(!board->isFull()) {
         playTurn(players[turn]); // play current turn
+        if (needToStop) {
+            printer->massage("The Server was closed\n");
+            return;
+        }
 
         turn = 1 - turn; // switch the turn to other player
 
@@ -102,6 +108,9 @@ void GameManager::run() {
     endGame();
 }
 void GameManager::playTurn(Player *&player) {
+    if (needToStop) {
+        return;
+    }
     printer->printBoard(board);
     const Value token = player->getToken();
     set<Coordinate> availableMoves = logic->availableMoves(token); // Get available moves
@@ -124,6 +133,10 @@ void GameManager::putNext(Player *&p, set<Coordinate> &availableMoves) const{
 
     while (flag) {
         Coordinate position(p->makeTurn(logic, board, availableMoves)); //Get coordinate by player's choose
+        if (position.getRow() == -8){
+            needToStop = true;
+            break;
+        }
         if (position.getRow() < 0 || (board->isFull()) || (tie ==2)) { //means that the player couldn't move
             break;
         }
@@ -172,7 +185,7 @@ void GameManager::endGame() {
 }
 
 int GameManager::clientCase() {
-    client = new Client("../exe/setting_client.txt");
+    client = new Client("setting_client.txt");
 
     try {
         bool first = true;
@@ -180,6 +193,10 @@ int GameManager::clientCase() {
         //printer->massage("Connecting to server\n");
         while (priority < 0) {
             priority = client->getCommand(printer, first);
+            if (priority == -2) {
+                return 0;
+            }
+       
             first = false;
         }
         cout << "You are player number: " << priority << endl;

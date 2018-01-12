@@ -2,7 +2,6 @@
 // Created by amir on 26/12/17.
 //
 
-
 #ifndef REVERSI_CLIENTHANDLER_H
 #define REVERSI_CLIENTHANDLER_H
 
@@ -31,7 +30,7 @@ public:
     static void* handleClient(void *data);
     //void closeThreads();
     void clientThreads(int client);
-    void analyzeCommand(int client);
+    void analayzeCommand(int client);
     void handleExit();
 
 };
