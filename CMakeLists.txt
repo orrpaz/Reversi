@@ -52,7 +52,7 @@ set(SOURCE_FILES src/client/srcReversi/Board.cpp
         src/server/ClientHandler.cpp
         src/server/ClientHandler.h src/server/GamesListCommand.cpp
         src/server/GamesListCommand.h src/server/JoinCommand.cpp
-        src/server/JoinCommand.h)
+        src/server/JoinCommand.h src/server/Task.cpp src/server/Task.h src/server/ThreadPool.cpp src/server/ThreadPool.h)
 
 add_executable(Reversi ${SOURCE_FILES} src/client/srcReversi/main.cpp)
 add_executable(server ${SOURCE_FILES} src/server/main.cpp)
