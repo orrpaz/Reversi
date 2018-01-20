@@ -22,35 +22,63 @@ ClientHandler::~ClientHandler() {
     delete commandManager;
 
 }
-void ClientHandler::clientThreads(int client) {
-    pthread_t new_thread;
-    DataOfClient *dataOfClient = new DataOfClient();
-    dataOfClient->clientHandler = this;
-    dataOfClient->clientSocket = client;
-    int rc = pthread_create(&new_thread, NULL, handleClient, (void *)dataOfClient);
-    if (rc) {
-        cout << "Error: unable to create thread, " << rc << endl;
-        exit(-1);
-    }
-    pthread_mutex_lock(&threadsMutex);
-    threads->push_back(new_thread);
-    pthread_mutex_unlock(&threadsMutex);
-
-}
-
- void* ClientHandler::handleClient(void* data) {
-    DataOfClient *dataOfClient = (DataOfClient*)data;
-    ClientHandler *ptr = dataOfClient->clientHandler;
-    ptr->analayzeCommand(dataOfClient->clientSocket);
-
-
-
-}
+//void ClientHandler::clientThreads(int client) {
+//    pthread_t new_thread;
+//    DataOfClient *dataOfClient = new DataOfClient();
+//    dataOfClient->clientHandler = this;
+//    dataOfClient->clientSocket = client;
+//    int rc = pthread_create(&new_thread, NULL, handleClient, (void *)dataOfClient);
+//    if (rc) {
+//        cout << "Error: unable to create thread, " << rc << endl;
+//        exit(-1);
+//    }
+//    pthread_mutex_lock(&threadsMutex);
+//    threads->push_back(new_thread);
+//    pthread_mutex_unlock(&threadsMutex);
+//
+//}
+// void ClientHandler::handleClient(int socket) {
+//     char request[REQ];
+//
+//     // נכון?
+//     //long clientSocket=(long)socket;
+//     int clientSocket = socket;
+//     //ssize_t n = read((int)clientSocket, &request, sizeof(request));
+//     ssize_t n = read(clientSocket, request, sizeof(request));
+//     if (n == -1) {
+//         throw "Error reading from socket";
+//     }
+//     //Convert char into string
+//     string strBuff(request);
+//     istringstream buf(strBuff);
+//     //split by ' '
+//     istream_iterator<string> begin(buf);
+//     istream_iterator<string> end;
+//     vector<string> vstrings(begin, end);
+//     // get the first string to command
+//     string command = vstrings.at(0);
+//     // delete the first string in vector.
+//     vstrings.erase(vstrings.begin());
+//
+//     //Convert int into string
+//     std::ostringstream ss;
+//     ss << clientSocket;
+//     //insert the client_socket as the first param in the vector
+//     vstrings.insert(vstrings.begin(), ss.str());
+//     vector<string>::iterator it;
+//     for (it = vstrings.begin(); it != (vstrings).end(); it++) {
+//         cout << (*it) << endl;
+//     }
+//
+//     //Run the command (Start, listGames, join, close)
+//     commandManager->executeCommand(command, vstrings);
+//
+//
+//
+//}
 void ClientHandler::analayzeCommand(int client) {
     char request[REQ];
-
-    // נכון?
-    //long clientSocket=(long)socket;
+    
     int clientSocket = client;
     //ssize_t n = read((int)clientSocket, &request, sizeof(request));
     ssize_t n = read(clientSocket, request, sizeof(request));
@@ -81,7 +109,6 @@ void ClientHandler::analayzeCommand(int client) {
 
         //Run the command (Start, listGames, join, close)
     commandManager->executeCommand(command, vstrings);
-    cout << "I finished\n";
 
 }
 void ClientHandler::handleExit() {

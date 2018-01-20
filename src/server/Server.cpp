@@ -12,16 +12,15 @@
 #include <string>
 #include <vector>
 using namespace std;
-#define MAX_CONNECTED_CLIENTS 10
+#define MAX_CONNECTED_CLIENTS 2
 #define MAX_COMMAND_LEN 20
+#define THREADS_NUM 5
 static void *acceptClients(void *);
 
-struct info {
-    int serverSocket;
-    ClientHandler *handler;
-};
 
-Server::Server(int port,ClientHandler *clientHandler): port(port), serverSocket(0),clientHandler(clientHandler) {
+
+Server::Server(int port,ClientHandler *clientHandler): port(port), serverSocket(0),clientHandler(clientHandler) ,
+                                                       threadPool(ThreadPool(THREADS_NUM)){
     cout << "Server" << endl;
 }
 void Server::start() {
@@ -45,6 +44,7 @@ void Server::start() {
     info info_;
     info_.serverSocket = serverSocket;
     info_.handler = clientHandler;
+    info_.s = this;
 
     int rc = pthread_create(&serverThreadId, NULL, &acceptClients, &info_);
     if (rc) {
@@ -62,8 +62,10 @@ void Server::start() {
 
 
 }
-static void *acceptClients(void *args) {
+ void *acceptClients(void *args) {
+
     struct info *information = (struct info *) args;
+//    Server *serverP = information->s;
     // Define the client socket's structures
     struct sockaddr_in clientAddress;
     socklen_t clientAddressLen = sizeof(clientAddress);
@@ -74,17 +76,34 @@ static void *acceptClients(void *args) {
         cout << "Client connected" << endl;
         if (clientSocket == -1)
             throw "Error on accept";
-        information->handler->clientThreads(clientSocket);
+
+//        information->handler->clientThreads(clientSocket);
+        DataOfClient *dataOfClient = new DataOfClient();
+        dataOfClient->clientHandler = information->handler;
+        dataOfClient->clientSocket = clientSocket;
+        Task* t = new Task(information->s->runClientHandler, (void *)dataOfClient);
+        information->s->addTask(t);
 
 
 //        pthread_t threadId;
 //        pthread_create(&threadId, NULL, &handleClient, (void *)clientSocket);
     }
 }
+void Server::addTask(Task *task) {
+    this->threadPool.addTask(task);
+}
+
+
+void* Server:: runClientHandler(void *data) {
+    DataOfClient* data1 = (DataOfClient*)data;
+    int clientSocket  = data1->clientSocket;
+    data1->clientHandler->analayzeCommand(clientSocket);
+}
 
 
 void Server::stop() {
     pthread_cancel(serverThreadId);
+    this->threadPool.terminate();
     close(serverSocket);
     cout << "Server stopped" << endl;
 }

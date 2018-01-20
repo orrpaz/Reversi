@@ -10,7 +10,7 @@ int main() {
     ClientHandler *clientHandler = new ClientHandler();
     int port;
     ifstream inFile;
-    inFile.open("setting_server.txt");
+    inFile.open("../exe/setting_server.txt");
     if(!inFile.is_open()) {
         throw "Can't open file";
     }

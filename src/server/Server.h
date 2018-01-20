@@ -7,9 +7,7 @@
 //
 //
 #include "ClientHandler.h"
-
-
-
+#include "ThreadPool.h"
 #include <pthread.h>
 class Server {
 public:
@@ -17,11 +15,29 @@ public:
     void start();
     void stop();
     void close_();
+    void addTask(Task *task);
+
+
+    static void *runClientHandler(void *data);
+
 private:
     int port;
     int serverSocket; // the socket's file descriptor
     pthread_t serverThreadId;
     ClientHandler* clientHandler;
+    ThreadPool threadPool;
+
+
 };
+struct DataOfClient{
+    ClientHandler *clientHandler;
+    int clientSocket;
+};
+typedef struct info {
+    int serverSocket;
+    ClientHandler *handler;
+    Server* s;
+}info;
+
 
 #endif //REVERSI_SERVER_H

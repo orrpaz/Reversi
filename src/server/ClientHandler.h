@@ -27,9 +27,9 @@ private:
 public:
     ClientHandler();
     ~ClientHandler();
-    static void* handleClient(void *data);
+//    void handleClient(int Socket);
     //void closeThreads();
-    void clientThreads(int client);
+//    void clientThreads(int client);
     void analayzeCommand(int client);
     void handleExit();
 
