@@ -95,9 +95,8 @@ void Server::addTask(Task *task) {
 
 
 void* Server:: runAnalyzeCommand(void *data) {
-    DataOfClient* data1 = (DataOfClient*)data;
-    int clientSocket  = data1->clientSocket;
-    data1->clientHandler->analyzeCommand(clientSocket);
+    DataOfClient* dataOfClient = (DataOfClient*)data;
+    dataOfClient->clientHandler->analyzeCommand(dataOfClient->clientSocket);
 }
 
 
