@@ -18,7 +18,7 @@ public:
     void addTask(Task *task);
 
 
-    static void *runClientHandler(void *data);
+    static void *runAnalyzeCommand(void *data);
 
 private:
     int port;

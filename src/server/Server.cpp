@@ -81,7 +81,7 @@ void Server::start() {
         DataOfClient *dataOfClient = new DataOfClient();
         dataOfClient->clientHandler = information->handler;
         dataOfClient->clientSocket = clientSocket;
-        Task* t = new Task(information->s->runClientHandler, (void *)dataOfClient);
+        Task* t = new Task(information->s->runAnalyzeCommand, (void *)dataOfClient);
         information->s->addTask(t);
 
 
@@ -94,10 +94,10 @@ void Server::addTask(Task *task) {
 }
 
 
-void* Server:: runClientHandler(void *data) {
+void* Server:: runAnalyzeCommand(void *data) {
     DataOfClient* data1 = (DataOfClient*)data;
     int clientSocket  = data1->clientSocket;
-    data1->clientHandler->analayzeCommand(clientSocket);
+    data1->clientHandler->analyzeCommand(clientSocket);
 }
 
 

@@ -76,9 +76,9 @@ ClientHandler::~ClientHandler() {
 //
 //
 //}
-void ClientHandler::analayzeCommand(int client) {
+void ClientHandler::analyzeCommand(int client) {
     char request[REQ];
-    
+
     int clientSocket = client;
     //ssize_t n = read((int)clientSocket, &request, sizeof(request));
     ssize_t n = read(clientSocket, request, sizeof(request));
