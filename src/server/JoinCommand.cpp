@@ -26,6 +26,17 @@ void JoinCommand::execute(vector<string> args) {
     for (it = (*gamesList).begin(); it != (*gamesList).end(); it++) {
         //Compare the input name to the names in the game list
         if ((*it).getName() == nameOfGame) {
+            if (it->wasStarted()) {
+                char running[this->msgLength] = "-1There is a running game with this name!";
+                ssize_t n = write(secondClient, &running, sizeof(running));
+                if (n == -1) {
+                    throw "Error on writing to socket";
+                }
+                //We don't want to continue
+                close(secondClient); // close the connection because maybe he won't continue
+                pthread_mutex_unlock(&mutex);
+                return;
+            }
             cout << "iterator room name: " << (*it).getName() << endl;
             found = true;
             //1 for signing that it's OK
@@ -34,6 +45,7 @@ void JoinCommand::execute(vector<string> args) {
             if (n == -1) {
                 throw "Error on writing to socket";
             }
+            it->setStarted();
             firstClient = it->getFirstClient();
 
 //            gamesList->erase(it);

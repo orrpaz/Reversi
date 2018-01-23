@@ -15,12 +15,16 @@ public:
     int getFirstClient() const;
     int getSecondClient() const;
     void setSecondClient(int &socket);
+    bool wasStarted();
+    void setStarted();
 
 
 private:
     string gameName;
     int clientFirst;
     int clientSecond;
+    bool started;
+
 };
 
 #endif //REVERSI_GAME_H

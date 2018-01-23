@@ -8,6 +8,7 @@ GameInfo::GameInfo(string name, int socket) {
     gameName= name;
     clientFirst = socket;
     clientSecond = -1; // temp var at start
+    started = false;
 }
 string GameInfo::getName() const {
     return gameName;
@@ -20,4 +21,10 @@ int GameInfo::getSecondClient() const {
 }
 void GameInfo::setSecondClient(int &socket) {
     clientSecond = socket;
+}
+bool GameInfo::wasStarted() {
+    return started;
+}
+void GameInfo::setStarted() {
+    started = true;
 }

@@ -113,14 +113,14 @@ void ClientHandler::analyzeCommand(int client) {
 }
 void ClientHandler::handleExit() {
 //    int move[2] = {-3,-3};
-    pthread_mutex_lock(&threadsMutex);
-    vector<pthread_t>::iterator it;
-    for (it = threads->begin(); it != threads->end(); ++it) {
-
-        pthread_cancel((*it));
-
-    }
-    pthread_mutex_unlock(&threadsMutex);
+//    pthread_mutex_lock(&threadsMutex);
+//    vector<pthread_t>::iterator it;
+//    for (it = threads->begin(); it != threads->end(); ++it) {
+//
+//        pthread_cancel((*it));
+//
+//    }
+//    pthread_mutex_unlock(&threadsMutex);
 
     vector<GameInfo>::iterator iterGameRoom;
     pthread_mutex_lock(&mutex);

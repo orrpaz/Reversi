@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 using namespace std;
-#define MAX_CONNECTED_CLIENTS 2
+#define MAX_CONNECTED_CLIENTS 20
 #define MAX_COMMAND_LEN 20
 #define THREADS_NUM 5
 static void *acceptClients(void *);
@@ -83,10 +83,10 @@ void Server::start() {
         dataOfClient->clientSocket = clientSocket;
         Task* t = new Task(information->s->runAnalyzeCommand, (void *)dataOfClient);
         information->s->addTask(t);
+        //task will be deleted in the threadPool
+        //Struct will be deleted in runAnalyzeCommand
 
 
-//        pthread_t threadId;
-//        pthread_create(&threadId, NULL, &handleClient, (void *)clientSocket);
     }
 }
 void Server::addTask(Task *task) {
@@ -97,6 +97,7 @@ void Server::addTask(Task *task) {
 void* Server:: runAnalyzeCommand(void *data) {
     DataOfClient* dataOfClient = (DataOfClient*)data;
     dataOfClient->clientHandler->analyzeCommand(dataOfClient->clientSocket);
+    delete(dataOfClient);
 }
 
 
